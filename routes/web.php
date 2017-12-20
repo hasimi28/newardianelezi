@@ -54,3 +54,4 @@ Route::resource('/ask', 'AskController');
 Route::get('/vquestions', 'AskController@view_questions');
 Route::resource('/video', 'VideoController');
 Route::resource('/videode', 'VideodeController');
+Route::get('/kuranishqip', 'KuraniController@shqip');

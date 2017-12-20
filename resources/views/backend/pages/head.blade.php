@@ -7,4 +7,4 @@
 <link href="https://fonts.googleapis.com/css?family=Anton|Barlow+Semi+Condensed|Lato|Merriweather|Montserrat|Open+Sans|Oswald|PT+Sans|Raleway|Roboto+Condensed|Slabo+27px|Source+Sans+Pro|Spectral+SC|Vollkorn+SC" rel="stylesheet"><meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{asset('css/main.css')}}" type="text/css">
 <link rel="stylesheet" href="{{asset('css/parsley.css')}}" type="text/css">
-<script src="https://unpkg.com/vue"></script>
+

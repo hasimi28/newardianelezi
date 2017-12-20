@@ -79,37 +79,15 @@
                     <!--SECTION HDG START-->
                     <div class="section_hdg">
                         <a href="#"><img src="{{asset('css/themes/images/hdg-img.png')}}" alt=""></a>
-                        <h3>Our Events</h3>
+                        <h3>Kur'an</h3>
                         <span><i class="fa icon-building"></i></span>
                     </div>
                     <!--SECTION HDG END-->
                     <!--KODE EVENT DES START-->
                     <div class="kode_event_des">
                         <div class="koed_event_timer">
-                            <figure class="them_overlay">
-                                <img src="{{asset('css/themes/extra-images/timer.jpg')}}" alt="">
-                                <figcaption>
-                                    <h5>NExt Event In :</h5>
-                                    <ul class="countdown">
-                                        <li>
-                                            <span class="days">52</span>
-                                            <p class="">Days</p>
-                                        </li>
-                                        <li>
-                                            <span class="hours">19</span>
-                                            <p class="">HRS</p>
-                                        </li>
-                                        <li>
-                                            <span class="minutes">85</span>
-                                            <p class="">Mins</p>
-                                        </li>
-                                        <li>
-                                            <span class="seconds">96</span>
-                                            <p class="">Secs</p>
-                                        </li>
-                                    </ul>
-                                </figcaption>
-                            </figure>
+                            <iframe src="https://archive.org/embed/Mishary_Alafasy_Quran&playlist=1&autoplay=1" width="500" height="400" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>                            <li>
+
                         </div>
                         <ul class="kode_calender_detail">
                             <li>

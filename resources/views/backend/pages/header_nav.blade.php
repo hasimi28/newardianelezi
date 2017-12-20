@@ -103,7 +103,7 @@
                 </ul>
             </li>
 
-            <li class="treeview"><a href="#"><i class="fa fa-users"></i><span>Video Category</span><i class="fa fa-angle-right"></i></a>
+            <li class="treeview"><a href="#"><i class="fa fa-users"></i><span>Galery</span><i class="fa fa-angle-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{route('gallery.index')}}"><i class="fa fa-circle-o"></i> Galeria </a></li>
                     <li><a href="{{route('gallery.create')}}"><i class="fa fa-circle-o"></i> Add Galery </a></li>

@@ -2,7 +2,7 @@
     @extends('backend.adm_master')
 
     @section('head')
-    <link rel="stylesheet" href="{{asset('css/themes/css/dropzone.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{asset('css/themes/css/dropzone.min.css')}}" type="text/css">
 
 
     @endsection
@@ -44,33 +44,33 @@
             <div class="col-md-offset-1 col-md-10">
                 <div class="jumbotron how-to-create" >
 
-                    <h3>Images <span id="photoCounter"></span></h3>
-                    <br />
 
-                    {!! Form::open(['url' => route('gallery.store'), 'class' => 'dropzone', 'files'=>true, 'id'=>'real-dropzone']) !!}
+                    {!! Form::open(['url' => route('gallery.store'), 'class' => 'dropzone',  'id'=>'my-dropzone']) !!}
 
-                    <div class="dz-message">
+                    {{csrf_field()}}
 
+                    <div class="form-group">
+
+
+                        <div class="col-lg-12">
+
+                            <select class="form-control" id="select" name="category_id">
+                                @foreach($cat as $c)
+                                <option value="{{$c->id}}">{{$c->NameTrans('name')}}</option>
+                                @endforeach
+
+                            </select>
+
+                        </div>
                     </div>
 
-                    <div class="fallback">
-                        <input name="file" type="file" multiple />
-                    </div>
+                    <div class="dropzone-previews"></div>
 
-                    <div class="dropzone-previews" id="dropzonePreview"></div>
-
-                    <h4 style="text-align: center;color:#428bca;">Drop images in this area  <span class="glyphicon glyphicon-hand-down"></span></h4>
 
                     {!! Form::close() !!}
 
                 </div>
-                <div class="jumbotron how-to-create">
-                    <ul>
-                        <li>Images are uploaded as soon as you drop them</li>
-                        <li>Maximum allowed size of image is 8MB</li>
-                    </ul>
-
-                </div>
+                <button type="submit" id="submit-all" class="btn btn-primary btn-xs">Upload the file</button>
             </div>
         </div>
 
@@ -90,7 +90,6 @@
 
 
 
-
             </div>
         </div>
         <!-- End Dropzone Preview Template -->
@@ -101,63 +100,46 @@
 
     @section('js')
 
-        {!! HTML::script('css/themes/js/dropzone.js') !!}
-        {!! HTML::script('css/themes/js/dropzone-config.js') !!}
+        <script src=" {!! asset('css/themes/js/dropzone.js') !!}"  ></script>
+
         <script type="text/javascript">
-            var photo_counter = 0;
-            Dropzone.options.realDropzone = {
+            Dropzone.options.myDropzone = {
+                maxFilesize: 5, //mb- Image files not above this size
+                uploadMultiple: true, // set to true to allow multiple image uploads
+                parallelUploads: 1, //all images should upload same time
+                maxFiles: 15, //number of images a user should upload at an instance
+                acceptedFiles: ".png,.jpg,.jpeg", //allowed file types, .pdf or anyother would throw error
+                // addRemoveLinks: true, // add a remove link underneath each image to
+                autoProcessQueue: false, // Prevents Dropzone from uploading dropped files immediately
 
-                uploadMultiple: false,
-                parallelUploads: 100,
-                maxFilesize: 8,
-                previewsContainer: '#dropzonePreview',
-                previewTemplate: document.querySelector('#preview-template').innerHTML,
-                addRemoveLinks: true,
-                dictRemoveFile: 'Remove',
-                dictFileTooBig: 'Image is bigger than 8MB',
-
-                // The setting up of the dropzone
-                init:function() {
-
-                    this.on("removedfile", function(file) {
-
+                removedfile: function(file) {
+                    var name = file.name;
+                    if (name) {
                         $.ajax({
-                            type: 'POST',
-                            url: 'upload/delete',
-                            data: {id: file.name, _token: $('#csrf-token').val()},
-                            dataType: 'html',
-                            success: function(data){
-                                var rep = JSON.parse(data);
-                                if(rep.code == 200)
-                                {
-                                    photo_counter--;
-                                    $("#photoCounter").text( "(" + photo_counter + ")");
-                                }
-
-                            }
+                            headers:{
+                                'X-CSRF-Token':$('input[name="_token"]').val()
+                            }, //passes the current token of the page to image url
+                            type: 'GET',
+                            url: "/products/remove/"+name,  //passes the image name to  the method handling this url to //remove file
+                            dataType: 'json'
                         });
-
-                    } );
-                },
-                error: function(file, response) {
-                    if($.type(response) === "string")
-                        var message = response; //dropzone sends it's own error messages in string
-                    else
-                        var message = response.message;
-                    file.previewElement.classList.add("dz-error");
-                    _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
-                    _results = [];
-                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                        node = _ref[_i];
-                        _results.push(node.textContent = message);
                     }
-                    return _results;
+                    var _ref;
+                    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                 },
-                success: function(file,done) {
-                    photo_counter++;
-                    $("#photoCounter").text( "(" + photo_counter + ")");
+                init: function() {
+                    var submitButton = document.querySelector("#submit-all")
+                    myDropzone = this; // closure
+                    submitButton.addEventListener("click", function() {
+                        myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                    });
+// You might want to show the submit button only when
+                    // files are dropped here:
+                    this.on("addedfile", function() {
+                        // Show submit button here and/or inform user to click it.
+                    });
                 }
-            }
+            };
         </script>
 
     @endsection

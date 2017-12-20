@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use App\Gallery;
+use App\CatGallery;
 
 class GalleryController extends Controller
 {
@@ -17,6 +20,10 @@ class GalleryController extends Controller
     public function index()
     {
 
+
+        $cat = CatGallery::all();
+        $galery = Gallery::all();
+        return view('backend.pages.galery')->withCat($cat)->withGalery($galery);
     }
 
     /**
@@ -26,7 +33,8 @@ class GalleryController extends Controller
      */
     public function create()
     {
-       return view('backend.pages.add_galery');
+        $cat = CatGallery::all();
+        return view('backend.pages.add_galery')->withCat($cat);
 
     }
 
@@ -39,14 +47,33 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
 
+        $gallery = new Gallery;
 
+            $img = $request->file('file');
 
- dd($request->name);
+        if ($request->hasFile('file')) {
+            $filename = $request->file('file');
+            //$this->validate($request,[
+            // 'file' => 'required',
+            // 'file.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            // ]); Add laravel validate if you wish
+            foreach ($filename as $n => $file) {
+                $k = $n+1;
+                $filenames =  time().'.'.$filename[$n]->getClientOriginalName();
+                $gallery->image = $filenames;
+                $gallery->category_id = $request->category_id;
+                $location = public_path('postimages/' . $filenames);
+                Image::make($file)->resize(800, 600)->save($location);
 
+            }
+            $gallery->save();
+        }
 
 
 
     }
+
+
 
     /**
      * Display the specified resource.
@@ -89,14 +116,21 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function deleteProducts($id) {
+        $file = 'public/postimages/'.$id;
+        Storage::delete($file);
+        return 'Yup it worked!';
+
+
+    }
     public function destroy($id)
     {
 
 
-            $image = Input::get('id');
-
-            @unlink(public_path('images'),$image);
+}
 
 
-    }
+
+
 }

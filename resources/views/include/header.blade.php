@@ -137,6 +137,7 @@
                             <li><a href="project-detail.html">Zekati</a></li>
                         </ul>
                     </li>
+                    @if(Config::get('app.locale') == 'sq')    <li><a href="{{url('/kuranishqip')}}">KuraniShqip</a></li> @endif
                     <li><a href="{{url('/vquestions')}}">Pyetjet</a></li>
 
                     {{--<li><a href="{{url('kuran')}}">Read Kuran</a></li>--}}
