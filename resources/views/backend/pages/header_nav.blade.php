@@ -107,7 +107,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{route('gallery.index')}}"><i class="fa fa-circle-o"></i> Galeria </a></li>
                     <li><a href="{{route('gallery.create')}}"><i class="fa fa-circle-o"></i> Add Galery </a></li>
-
+                    <li><a href="{{route('gallerycat.index')}}"><i class="fa fa-circle-o"></i> Kategorite </a></li>
 
                 </ul>
             </li>

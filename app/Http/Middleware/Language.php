@@ -24,6 +24,8 @@ class Language
             $locale = Session::get('locale',Config::get('app.locale'));
 
             Carbon::setLocale($locale);
+
+            setlocale(LC_TIME, 'de');
         }else{
 
             $locale = 'sq';

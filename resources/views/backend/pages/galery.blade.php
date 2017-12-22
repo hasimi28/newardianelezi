@@ -26,18 +26,18 @@
             }
             .filter-button
             {
-                font-size: 18px;
+                font-size: 15px;
                 border: 1px solid teal;
                 border-radius: 5px;
                 text-align: center;
-                color: #777;
+                color: white;
                 margin-bottom: 30px;
-                background-color: white;
+                background-color: grey;
 
             }
             .filter-button:hover
             {
-                font-size: 18px;
+                font-size: 15px;
                 border: 1px solid #42B32F;
                 border-radius: 5px;
                 text-align: center;
@@ -63,6 +63,11 @@
                 margin-bottom: 30px;
             }
 
+            .active{
+
+                background-color: grey;
+                color:grey;
+            }
         </style>
         <div class="page-title">
             <div>
@@ -85,7 +90,7 @@
                 <div align="center">
                     @foreach($cat as $c)
 
-                    <button class="btn btn-default filter-button" data-filter="{{$c->id}}">{{$c->NameTrans('name')}}</button>
+                    <button class="btn btn-primary filter-button btn-sm" data-filter="{{$c->id}}">{{$c->NameTrans('name')}}</button>
 
                     @endforeach
                 </div>
@@ -94,7 +99,7 @@
 
                 @foreach($galery as $gal)
                 <div class="gallery_product col-lg-2 col-md-4 col-sm-4 col-xs-6 filter {{$gal->catgallery->id}}">
-                    <img src="{{asset('postimages/'.$gal->image)}}" class="img-responsive">
+                    <img src="{{asset('gallery/'.$gal->image)}}" class="img-responsive">
                 </div>
                 @endforeach
             </div>

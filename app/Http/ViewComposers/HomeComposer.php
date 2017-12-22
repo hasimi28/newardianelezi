@@ -7,6 +7,9 @@ use Illuminate\View\View;
 use \GeniusTS\PrayerTimes\Prayer;
 use \GeniusTS\PrayerTimes\Coordinates;
 use App\PostCategory;
+use App\Gallery;
+use App\Event;
+
 
 Class HomeComposer{
 
@@ -38,11 +41,35 @@ Class HomeComposer{
             $category5 = PostCategory::all()->random()->get();;
             $new_post = Post::orderBy('id', 'DESC')->take(5)->get();
 
+            $home_gallery = Gallery::inRandomOrder()->take('4')->get();
+            $home_gallery2 = Gallery::inRandomOrder()->take('1')->get();
+
+            $event = Event::orderBy('id', 'DESC')->take(1)->get();
+
+            foreach($event as $ev){
+
+                $seconds = strtotime($ev->datetime) - time();
+
+                $days = floor($seconds / 86400);
+                $seconds %= 86400;
+
+                $hours = floor($seconds / 3600);
+                $seconds %= 3600;
+
+                $minutes = floor($seconds / 60);
+                $seconds %= 60;
+
+            }
 
             $view->with('array',$array)
                 ->with('category',$category)
                 ->with('category5',$category5)
-                ->with('new_post',$new_post);
+                ->with('new_post',$new_post)
+                ->with('home_gallery',$home_gallery)
+                ->with('home_gallery2',$home_gallery2)
+                ->with('days',$days)
+                ->with('hours',$hours)
+                ->with('minutes',$minutes)->with('event',$event);
 
         }
 

@@ -14,6 +14,7 @@ class Controller extends BaseController
     public function __construct()
     {
         Carbon::setLocale('sq');
+        setlocale(LC_TIME, 'de');
     }
 
 

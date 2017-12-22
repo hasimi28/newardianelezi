@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use App\Gallery;
 use App\CatGallery;
+use Illuminate\Support\Facades\Session;
 
-class GalleryController extends Controller
+class GalleryCat extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,10 +17,8 @@ class GalleryController extends Controller
     public function index()
     {
 
-
-        $cat = CatGallery::all();
-        $galery = Gallery::all();
-        return view('backend.pages.galery')->withCat($cat)->withGalery($galery);
+       $cat = CatGallery::all();
+       return view('backend.pages.gallery_cat')->withCat($cat);
     }
 
     /**
@@ -33,9 +28,7 @@ class GalleryController extends Controller
      */
     public function create()
     {
-        $cat = CatGallery::all();
-        return view('backend.pages.add_galery')->withCat($cat);
-
+        //
     }
 
     /**
@@ -46,34 +39,22 @@ class GalleryController extends Controller
      */
     public function store(Request $request)
     {
-
-        $gallery = new Gallery;
-
-            $img = $request->file('file');
-
-        if ($request->hasFile('file')) {
-            $filename = $request->file('file');
-            //$this->validate($request,[
-            // 'file' => 'required',
-            // 'file.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-            // ]); Add laravel validate if you wish
-            foreach ($filename as $n => $file) {
-                $k = $n+1;
-                $filenames =  time().'.'.$filename[$n]->getClientOriginalName();
-                $gallery->image = $filenames;
-                $gallery->category_id = $request->category_id;
-                $location = public_path('gallery/' . $filenames);
-                Image::make($file)->resize(800, 600)->save($location);
-
-            }
-            $gallery->save();
-        }
+        $this->validate($request, [
+            'name_sq' => 'required|max:255',
+            'name_de' => 'required|max:255',
+        ]);
 
 
+        $tag = New CatGallery();
+        $tag->name_sq = $request->name_sq;
+        $tag->name_de = $request->name_de;
 
+        $tag->save();
+
+        Session::flash('success','Kategoria u shtua me sukses');
+
+        return redirect()->back();
     }
-
-
 
     /**
      * Display the specified resource.
@@ -94,7 +75,8 @@ class GalleryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cat = CatGallery::findOrFail($id);
+        return view('backend.pages.edit_gallerycat')->withCat($cat);
     }
 
     /**
@@ -106,9 +88,21 @@ class GalleryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $this->validate($request, [
+            'name_sq' => 'required|max:255',
+            'name_de' => 'required|max:255',
+        ]);
 
+        $cat = CatGallery::findOrFail($id);
+        $cat->name_sq = $request->name_sq;
+        $cat->name_de = $request->name_de;
+
+        $cat->save();
+
+        Session::flash('success','Kategoria u ndryshua me sukses');
+
+        return redirect('backend/gallerycat');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -116,15 +110,13 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
-
     public function destroy($id)
     {
+        $cat = CatGallery::find($id);
 
+        $cat->delete();
 
-}
-
-
-
-
+        Session::flash('success','Kategoria u fshi me sukses');
+        return redirect('backend/gallerycat');
+    }
 }

@@ -37,7 +37,8 @@ Route::resource('/videomanagerde', 'Admin\VideodeAdminController');
 Route::resource('/categorymanager', 'Admin\CatVideoController');
 Route::resource('/categorymanagerde', 'Admin\CatVideoDeController');
 Route::resource('/gallery', 'Admin\GalleryController');
-Route::post('dropzone/delete', ['as' => 'dropzone.delete', 'uses' => 'GalleryController@dropzoneDelete']);
+//Route::post('dropzone/delete', ['as' => 'dropzone.delete', 'uses' => 'GalleryController@dropzoneDelete']);
+Route::resource('/gallerycat', 'Admin\GalleryCat');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -55,3 +56,4 @@ Route::get('/vquestions', 'AskController@view_questions');
 Route::resource('/video', 'VideoController');
 Route::resource('/videode', 'VideodeController');
 Route::get('/kuranishqip', 'KuraniController@shqip');
+Route::get('/keshilla', 'GalleryController@index');

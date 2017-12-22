@@ -6,5 +6,6 @@
     @include('include.about_us')
     @include('include.blog_event_content')
     @include('include.shtyllat')
+    @include('include.homegalery')
 @endsection
 

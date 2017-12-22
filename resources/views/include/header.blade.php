@@ -131,12 +131,11 @@
                     </li>
                     <li><a href="#">Audio Ligjerata</a>
                         <ul class="kode">
-                            <li><a href="project.html">Ramazani</a></li>
-                            <li><a href="project-01.html">Namazi</a></li>
-                            <li><a href="project-list.html">Haxhi</a></li>
-                            <li><a href="project-detail.html">Zekati</a></li>
+                            <li><a href="{{route('video.index')}}">Shqip</a></li>
+                            <li><a href="{{route('videode.index')}}">Gjermanisht</a></li>
                         </ul>
                     </li>
+                    <li><a href="{{url('/keshilla')}}">Galeria</a></li>
                     @if(Config::get('app.locale') == 'sq')    <li><a href="{{url('/kuranishqip')}}">KuraniShqip</a></li> @endif
                     <li><a href="{{url('/vquestions')}}">Pyetjet</a></li>
 
@@ -146,58 +145,37 @@
                 <div id="kode-responsive-navigation" class="dl-menuwrapper">
                     <button class="dl-trigger">Open Menu</button>
                     <ul class="dl-menu">
-                        <li><a class="active" href="#">Home</a>
+                   <li><a class="active" href="{{url('/')}}">Home</a></li>
+
+
+                        <li class="menu-item kode-parent-menu"><a href="#">Shkrime</a>
                             <ul class="dl-submenu">
-                                <li><a href="index.html">DEFULT HOME</a></li>
-                                <li><a href="index-1.html">Home page 02</a></li>
+
+                                    @if(count($category) > 0)
+                                        @foreach($category as $cat)
+                                            <li><a href="{{route('category.post',strtolower($cat->NameTrans('name')))}}">{{$cat->NameTrans('name')}}</a></li>
+                                        @endforeach
+                                    @endif
+
                             </ul>
                         </li>
-                        <li class="menu-item kode-parent-menu"><a href="about-us.html">About Us</a></li>
-                        <li class="menu-item kode-parent-menu"><a href="#">Services</a>
+                        <li class="menu-item kode-parent-menu"><a href="#">Video Ligjerata</a>
                             <ul class="dl-submenu">
-                                <li><a href="service.html">service</a></li>
-                                <li><a href="service-01.html">service 01</a></li>
-                                <li><a href="service02.html">service 02</a></li>
-                                <li><a href="service-detail.html">service detail</a></li>
-                                <li><a href="service-sidebar.html">service sidebar</a></li>
+                                <li><a href="{{route('video.index')}}">Shqip</a></li>
+                                <li><a href="{{route('videode.index')}}">Gjermanisht</a></li>
                             </ul>
                         </li>
-                        <li class="menu-item kode-parent-menu"><a href="#">Projects</a>
+                        <li class="menu-item kode-parent-menu"><a href="#">Audio Ligjerata</a>
                             <ul class="dl-submenu">
-                                <li><a href="project.html">project</a></li>
-                                <li><a href="project-01.html">project 01</a></li>
-                                <li><a href="project-list.html">project list</a></li>
-                                <li><a href="project-detail.html">project detail</a></li>
+                                <li><a href="{{route('video.index')}}">Shqip</a></li>
+                                <li><a href="{{route('videode.index')}}">Gjermanisht</a></li>
                             </ul>
                         </li>
-                        <li class="menu-item kode-parent-menu"><a href="#">blog</a>
-                            <ul class="dl-submenu">
-                                <li><a href="blog.html">blog</a></li>
-                                <li><a href="blog01.html">blog 01</a></li>
-                                <li><a href="blog-detail.html">blog detail</a></li>
-                                <li><a href="blog-sidebar.html">blog sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item kode-parent-menu"><a href="#">portfolio</a>
-                            <ul class="dl-submenu">
-                                <li><a href="portfolio.html">portfolio</a></li>
-                                <li><a href="portfolio-01.html">portfolio 01</a></li>
-                                <li><a href="portfolio-02.html">portfolio 02</a></li>
-                                <li><a href="portfolio-detail.html">portfolio detail</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item kode-parent-menu"><a href="#">Pages</a>
-                            <ul class="dl-submenu">
-                                <li><a href="event.html">event</a></li>
-                                <li><a href="404.html">404 page</a></li>
-                                <li><a href="shop.html">shop page</a></li>
-                                <li><a href="coming-soon.html">coming soon</a></li>
-                                <li><a href="event-detail.html">event detail</a></li>
-                                <li><a href="event-sidebar.html">event sidebar</a></li>
-                                <li><a href="team-detail.html">team detail</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="contact-us.html">contact Us</a></li>
+
+                        <li><a href="{{url('/keshilla')}}">Galeria</a></li>
+                        @if(Config::get('app.locale') == 'sq')    <li><a href="{{url('/kuranishqip')}}">KuraniShqip</a></li> @endif
+                        <li><a href="{{url('/vquestions')}}">Pyetjet</a></li>
+
                     </ul>
                 </div>
                 <!--DL Menu END-->

@@ -104,12 +104,12 @@
 
         <script type="text/javascript">
             Dropzone.options.myDropzone = {
-                maxFilesize: 5, //mb- Image files not above this size
+                maxFilesize: 1, //mb- Image files not above this size
                 uploadMultiple: true, // set to true to allow multiple image uploads
                 parallelUploads: 1, //all images should upload same time
                 maxFiles: 15, //number of images a user should upload at an instance
-                acceptedFiles: ".png,.jpg,.jpeg", //allowed file types, .pdf or anyother would throw error
-                // addRemoveLinks: true, // add a remove link underneath each image to
+                acceptedFiles: ".png,.jpg,.jpeg.gif", //allowed file types, .pdf or anyother would throw error
+                addRemoveLinks: true, // add a remove link underneath each image to
                 autoProcessQueue: false, // Prevents Dropzone from uploading dropped files immediately
 
                 removedfile: function(file) {
