@@ -27,6 +27,7 @@
     </div>
 
 @include('include/jsfiles')
+
 @yield('js')
     <script type="text/javascript">
 

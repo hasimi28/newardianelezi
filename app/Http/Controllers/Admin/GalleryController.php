@@ -121,7 +121,16 @@ class GalleryController extends Controller
     public function destroy($id)
     {
 
+        $gal = Gallery::find($id);
 
+
+        if(file_exists('gallery/'.$gal->image)){
+            @unlink('gallery/'.$gal->image);
+        }
+
+        $gal->delete();
+
+        return redirect('backend/gallery')->with('success','Foto u fshi me sukses');
 }
 
 

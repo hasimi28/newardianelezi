@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 use App\Post;
 use Carbon\Carbon;
+use DateTimeZone;
 use Illuminate\View\View;
 use \GeniusTS\PrayerTimes\Prayer;
 use \GeniusTS\PrayerTimes\Coordinates;
@@ -44,22 +45,39 @@ Class HomeComposer{
             $home_gallery = Gallery::inRandomOrder()->take('4')->get();
             $home_gallery2 = Gallery::inRandomOrder()->take('1')->get();
 
-            $event = Event::orderBy('id', 'DESC')->take(1)->get();
+            $event = Event::orderBy('id', 'DESC')->where('datetime','>=', Carbon::now())->take(1)->get();
 
-            foreach($event as $ev){
 
-                $seconds = strtotime($ev->datetime) - time();
+                if(count($event)) {
+                    foreach ($event as $ev) {
 
-                $days = floor($seconds / 86400);
-                $seconds %= 86400;
+                        $seconds = strtotime($ev->datetime) - time();
 
-                $hours = floor($seconds / 3600);
-                $seconds %= 3600;
+                        $days = floor($seconds / 86400);
+                        $seconds %= 86400;
 
-                $minutes = floor($seconds / 60);
-                $seconds %= 60;
+                        $hours = floor($seconds / 3600);
+                        $seconds %= 3600;
 
-            }
+                        $minutes = floor($seconds / 60);
+                        $seconds %= 60;
+
+                    }
+
+                }else{
+                    $seconds = 0;
+
+                    $days = 0;
+
+
+                    $hours = 0;
+
+
+                    $minutes = 0;
+
+                }
+
+
 
             $view->with('array',$array)
                 ->with('category',$category)

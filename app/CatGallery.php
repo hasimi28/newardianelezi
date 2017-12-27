@@ -13,7 +13,7 @@ class CatGallery extends Model
 
     public function gallery(){
 
-        return $this->hasMany('App\Gallery');
+        return $this->hasMany('App\Gallery','category_id');
     }
 
 

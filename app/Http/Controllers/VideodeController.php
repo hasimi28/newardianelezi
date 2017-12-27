@@ -15,8 +15,14 @@ class VideodeController extends Controller
      */
     public function index()
     {
+        $all = Video_Category_De::all();
+        $video = Video_de::orderBy('id','desc')->get();
         $video_category = Video_Category_De::all();
-        return view('category_videode')->withVideocategory($video_category);
+        return view('videode')->withVideo($video)->withVideocategory($video_category)->withAll($all);
+
+
+
+
     }
 
     /**
@@ -49,10 +55,11 @@ class VideodeController extends Controller
     public function show($name)
     {
         $cat = Video_Category_De::where('name',$name)->get();
+        $all = Video_Category_De::all();
 
         foreach($cat as $s){
             $video = Video_de::where('category_id',$s->id)->get();
-            return view('videode')->withVideo($video)->withCat($cat);
+            return view('videode')->withVideo($video)->withCat($cat)->withAll($all);
 
         }
     }

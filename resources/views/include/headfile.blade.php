@@ -6,7 +6,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!-- Styles -->
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+
 <link  href="{{ asset('css/themes/css/bootstrap.css') }}" rel="stylesheet">
 <!--fontawseme CSS-->
 <link  href="{{ asset('css/themes/css/font-awesome.css') }}" rel="stylesheet">

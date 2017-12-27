@@ -15,8 +15,16 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $video_category = Video_Category::all();
-        return view('category_video')->withVideocategory($video_category);
+             $cat = Video_Category::all();
+
+             $all = Video_Category::all();
+
+
+            $video = Video::orderBy('id','desc')->get();
+            return view('video')->withVideo($video)->withAll($all)->withCat($cat);
+
+
+
     }
 
     /**
@@ -49,10 +57,11 @@ class VideoController extends Controller
     public function show($name)
     {
         $cat = Video_Category::where('name',$name)->get();
+        $all = Video_Category::all();
 
         foreach($cat as $s){
             $video = Video::where('video__category_id',$s->id)->get();
-            return view('video')->withVideo($video)->withCat($cat);
+            return view('video')->withVideo($video)->withCat($cat)->withAll($all);
 
         }
 
@@ -66,8 +75,10 @@ class VideoController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
+
+
 
     /**
      * Update the specified resource in storage.

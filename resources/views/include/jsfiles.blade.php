@@ -1,4 +1,4 @@
-<script src="{{ asset('css/themes/js/jquery.js') }}"></script>
+<script src="{{ asset('css/themes/js/jquery.min.js') }}"></script>
 <!--BOOTSTRAP JavaScript-->
 
 <script src="{{ asset('css/themes/js/bootstrap.js') }}"></script>

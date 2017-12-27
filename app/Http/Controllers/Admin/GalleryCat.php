@@ -114,6 +114,18 @@ class GalleryCat extends Controller
     {
         $cat = CatGallery::find($id);
 
+        foreach ($cat->gallery as $gall) {
+
+            if (file_exists('gallery/' . $gall->image)) {
+                @unlink('gallery/' . $gall->image);
+            }
+
+            $gall->delete();
+        }
+
+
+
+
         $cat->delete();
 
         Session::flash('success','Kategoria u fshi me sukses');

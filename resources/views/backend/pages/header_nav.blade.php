@@ -111,6 +111,15 @@
 
                 </ul>
             </li>
+
+            <li class="treeview"><a href="#"><i class="fa fa-users"></i><span>Events</span><i class="fa fa-angle-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('event.index')}}"><i class="fa fa-circle-o"></i> All Events</a></li>
+                    <li><a href="{{route('event.create')}}"><i class="fa fa-circle-o"></i> Add Event </a></li>
+
+
+                </ul>
+            </li>
         </ul>
 
     </section>

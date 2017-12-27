@@ -86,9 +86,17 @@
         <div class="container">
             <div class="row">
 
+                @if (\Session::has('success'))
+                    <div class="alert alert-success">
 
+                        <p>{!! \Session::get('success') !!}</p>
+
+                    </div>
+                @endif
                 <div align="center">
+                    <button class="btn btn-primary filter-button btn-sm" data-filter="all">All</button>
                     @foreach($cat as $c)
+
 
                     <button class="btn btn-primary filter-button btn-sm" data-filter="{{$c->id}}">{{$c->NameTrans('name')}}</button>
 
@@ -98,8 +106,14 @@
 
 
                 @foreach($galery as $gal)
-                <div class="gallery_product col-lg-2 col-md-4 col-sm-4 col-xs-6 filter {{$gal->catgallery->id}}">
+                <div class="gallery_product col-lg-2 col-md-4 col-sm-4 col-xs-6 filter {{$gal->catgallery->id}}"  style="text-align:center;">
                     <img src="{{asset('gallery/'.$gal->image)}}" class="img-responsive">
+                    <form action="{{route('gallery.destroy',$gal->id)}}" id="form_delete" accept-charset="UTF-8" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="id" value="{{$gal->id}}">
+                        <button type="submit"  class="col-12 col-md-12 btn-danger btn-block"><i class="fa fa-trash"></i></button>
+                    </form>
                 </div>
                 @endforeach
             </div>
