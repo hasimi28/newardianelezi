@@ -124,15 +124,15 @@
                     </li>
                     <li><a href="#">Video Ligjerata</a>
                         <ul class="kode">
-                            <li><a href="{{route('video.index')}}">Shqip</a></li>
-                            <li><a href="{{route('videode.index')}}">Gjermanisht</a></li>
+                            <li><a href="{{url('onvideo')}}">Shqip</a></li>
+                            <li><a href="{{url('onvideode')}}">Gjermanisht</a></li>
 
                         </ul>
                     </li>
                     <li><a href="#">Audio Ligjerata</a>
                         <ul class="kode">
-                            <li><a href="{{route('video.index')}}">Shqip</a></li>
-                            <li><a href="{{route('videode.index')}}">Gjermanisht</a></li>
+                            <li><a href="{{url('onvideo')}}">Shqip</a></li>
+                            <li><a href="{{url('onvideode')}}">Gjermanisht</a></li>
                         </ul>
                     </li>
                     <li><a href="{{url('/keshilla')}}">Galeria</a></li>

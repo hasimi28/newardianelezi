@@ -59,4 +59,10 @@ Route::resource('/videode', 'VideodeController');
 Route::get('/kuranishqip', 'KuraniController@shqip');
 Route::get('/keshilla', 'GalleryController@index');
 Route::get('/findsq', 'FindVideoController@findsq');
-Route::get('/video/{cat}/{videoname}', 'FindVideoController@urlvideo');
+Route::get('/onvideo/{cat}/{videoname}/', 'FindVideoController@urlvideo');
+Route::get('/onvideo', 'FindVideoController@video');
+Route::get('/onvideo/{cat}', 'FindVideoController@bycategory');
+
+Route::get('/onvideode/{cat}/{videoname}/', 'FindVideoController@urlvideo_de');
+Route::get('/onvideode', 'FindVideoController@video_de');
+Route::get('/onvideode/{cat}', 'FindVideoController@bycategory_de');

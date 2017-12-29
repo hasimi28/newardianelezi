@@ -48,8 +48,29 @@
                                             <input class="form-control" name="title" id="email" type="text" placeholder="Titulli Videos">
                                         </div>
                                     </div>
+
+
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label" for="inputPassword">ID Youtube Video</label>
+                                        <label class="col-lg-2 control-label" for="inputEmail"></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-check-input" type="radio" name="permission" id="upload" value="crud">
+                                            Upload Video
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="inputEmail"></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-check-input" type="radio" name="permission" id="youtube" value="basic">
+                                            Video From Youtube
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group youtube" style="display:none;">
+                                        <label class="col-lg-2 control-label" for="inputPassword"></label>
                                         <div class="col-lg-10" >
                                             <input class="form-control" id="password" type="text" name="youtube_id" placeholder="ID Youtube Video">
                                         <br>
@@ -57,9 +78,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group upload" style="display:none;">
+
+                                        <label class="col-lg-2 control-label" for="name">Video Upload</label>
+                                        <div class="col-lg-10">
+                                            <input type="file" name="image" id="profile-img" class="btn btn-primary btn-file"> <img src="" id="profile-img-tag" width="200px" />
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-group">
 
-                                        <label class="col-lg-2 control-label" for="name">Video Images</label>
+                                        <label class="col-lg-2 control-label" for="name">Images</label>
                                         <div class="col-lg-10">
                                             <input type="file" name="image" id="profile-img" class="btn btn-primary btn-file"> <img src="" id="profile-img-tag" width="200px" />
                                         </div>
@@ -104,6 +134,32 @@
 
 
     <script type="text/javascript">
+
+
+
+        $('#youtube').click(function(){
+            if($(this).prop('checked')){
+
+
+                $('.youtube').show();
+                $('.upload').hide();
+            }else{
+
+                $('.upload').show();
+            }
+        });
+
+        $('#upload').click(function(){
+            if($(this).prop('checked')){
+
+                $('.upload').show();
+                $('.youtube').hide();
+
+            }else{
+
+                $('.youtube').hide();
+            }
+        });
 
 
 

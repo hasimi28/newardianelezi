@@ -18,7 +18,7 @@ class CreateVideosDeTable extends Migration
             $table->string('title');
             $table->string('youtube_id');
             $table->string('filename');
-            $table->integer('category_id')->unsigned();
+            $table->integer('video__category_id')->unsigned();
             $table->string('image');
             $table->timestamps();
 
