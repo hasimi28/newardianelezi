@@ -126,7 +126,7 @@
                         </figure>
                     </div>
                     <ul class="kode_calender_detail"  style="background: #efefef;">
-                        @foreach($event as $e)
+                        @foreach($five_event as $e)
                             <li>
                                 <div class="kode_calender_list">
                                     <div class="new_post2">

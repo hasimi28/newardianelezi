@@ -82,7 +82,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Video Upload</label>
                                         <div class="col-lg-10">
-                                            <input type="file" name="image" id="profile-img" class="btn btn-primary btn-file"> <img src="" id="profile-img-tag" width="200px" />
+                                            <input type="file" name="video"  class="btn btn-primary btn-file">
                                         </div>
                                     </div>
 
@@ -136,6 +136,20 @@
     <script type="text/javascript">
 
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#profile-img-tag').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#profile-img").change(function(){
+            readURL(this);
+        });
+
 
         $('#youtube').click(function(){
             if($(this).prop('checked')){
@@ -163,19 +177,7 @@
 
 
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#profile-img-tag').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        $("#profile-img").change(function(){
-            readURL(this);
-        });
 
     </script>
 @endsection

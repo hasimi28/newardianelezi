@@ -16,7 +16,6 @@ class Event extends Model
     {
         return Carbon::parse($date);
 
-
     }
 
     public function NameTrans($name)
@@ -26,7 +25,6 @@ class Event extends Model
 
         return $this->{$column};
     }
-
 
 
 }

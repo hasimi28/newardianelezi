@@ -2,10 +2,12 @@
 
 @section('head')
 
-    <link type="text/css" href="{{asset('datetime/jquery.simple-dtpicker.css')}}" rel="stylesheet" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{{asset('datetime/bootstrap-datetimepicker.css')}}" type="text/css">
 
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-
 
     <script>tinymce.init({
             selector: 'textarea',  // change this value according to your HTML
@@ -32,7 +34,7 @@
 
     {!! Html::script('css/select2.min.css') !!}
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
 
 @endsection
@@ -55,10 +57,10 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="row">
-                    <div class="col-lg-6 col-md-offset-2">
+                    <div class="col-lg-8 col-md-offset-2">
 
                         <div class="well bs-component">
-                            <form class="form-horizontal" id="demo-form" action="{{route('post.store')}}" method="POST" data-parsley-validate enctype="multipart/form-data">
+                            <form class="form-horizontal" id="demo-form" action="{{route('event.store')}}" method="POST" data-parsley-validate enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
                                 <fieldset>
@@ -80,7 +82,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Title SQ</label>
                                         <div class="col-lg-10">
-                                            <input class="form-control" name="title_sq" id="name" type="text" placeholder="Title Shqip" required=""
+                                            <input class="form-control" name="title_sq" id="title_sq" type="text" placeholder="Title Shqip" required=""
                                                    data-parsley-required-message="@lang('app_lang.parsley_required')">
                                         </div>
                                     </div>
@@ -89,7 +91,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Title DE</label>
                                         <div class="col-lg-10">
-                                            <input class="form-control" name="title_de" id="name" type="text" placeholder="Title Deutch"  required=""
+                                            <input class="form-control" name="title_de" id="title_de" type="text" placeholder="Title Deutch"  required=""
                                                    data-parsley-required-message="@lang('app_lang.parsley_required')">
                                         </div>
                                     </div>
@@ -100,7 +102,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Text SQ</label>
                                         <div class="col-lg-10">
-                                            <textarea class="form-control" id="textArea" name="desc_sq" rows="3"  required=""
+                                            <textarea class="form-control" id="textArea" name="text_sq" rows="3"
                                                       data-parsley-required-message="@lang('app_lang.parsley_required')"></textarea><span class="help-block"></span>
                                         </div>
                                     </div>
@@ -109,12 +111,19 @@
 
                                         <label class="col-lg-2 control-label" for="name">Text DE</label>
                                         <div class="col-lg-10">
-                                            <textarea class="form-control" id="textArea" name="desc_de" rows="3"  required=""
+                                            <textarea class="form-control" id="textArea" name="text_de" rows="3"  
                                                       data-parsley-required-message="@lang('app_lang.parsley_required')"></textarea><span class="help-block"></span>
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
 
+                                        <label class="col-lg-2 control-label" for="name">Lokacioni</label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" name="adress" id="title_de" type="text" placeholder="Lokacioni"  required=""
+                                                   data-parsley-required-message="@lang('app_lang.parsley_required')">
+                                        </div>
+                                    </div>
 
                                     <div class="form-group">
 
@@ -126,12 +135,17 @@
                                     </div>
 
 
+
                                     <div class="form-group">
 
                                         <label class="col-lg-2 control-label" for="name">Date</label>
                                         <div class="col-lg-10">
-                                            <input type="text" name="date" value="">
-
+                                            <div class='input-group date' id='datetimepicker1'>
+                                                <input type='text' name="datetime" class="form-control" />
+                                                <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -163,15 +177,14 @@
 
 @section('js')
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"> </script>
+    <script src="{{asset('js/parsley.min.js')}}" type="text/javascript"></script>
 
-
-    {!! Html::script('js/select2.min.js') !!}
-    <script type="text/javascript" src="{{asset('datetime/jquery.simple-dtpicker.js')}}"></script>
 
     <script type="text/javascript">
-        $(function(){
-            $('*[name=date]').appendDtpicker();
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
         });
 
         $('.select2-multi').select2();

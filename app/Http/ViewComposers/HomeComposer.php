@@ -46,7 +46,7 @@ Class HomeComposer{
             $home_gallery2 = Gallery::inRandomOrder()->take('1')->get();
 
             $event = Event::orderBy('id', 'DESC')->where('datetime','>=', Carbon::now())->take(1)->get();
-
+            $five_event = Event::orderBy('id', 'DESC')->where('datetime','>=', Carbon::now())->take(5)->get();
 
                 if(count($event)) {
                     foreach ($event as $ev) {
@@ -87,7 +87,7 @@ Class HomeComposer{
                 ->with('home_gallery2',$home_gallery2)
                 ->with('days',$days)
                 ->with('hours',$hours)
-                ->with('minutes',$minutes)->with('event',$event);
+                ->with('minutes',$minutes)->with('event',$event)->with('five_event',$five_event);
 
         }
 

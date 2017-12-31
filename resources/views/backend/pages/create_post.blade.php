@@ -136,7 +136,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Text SQ</label>
                                         <div class="col-lg-10">
-                                            <textarea class="form-control" id="textArea" name="desc_sq" rows="3"  required=""
+                                            <textarea class="form-control" id="textArea" name="desc_sq" rows="3"
                                                       data-parsley-required-message="@lang('app_lang.parsley_required')"></textarea><span class="help-block"></span>
                                         </div>
                                     </div>

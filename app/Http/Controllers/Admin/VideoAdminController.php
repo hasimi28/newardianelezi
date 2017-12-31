@@ -43,17 +43,26 @@ class VideoAdminController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'video__category_id' => 'required',
-            'youtube_id' => 'required',
+//          'video' => 'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv'
 
         ]);
 
+        if($request->hasFile('video')){
+
+
+            $this->validate($request, [
+
+        'video' => 'required|mimes:mp4,avi,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv'
+
+            ]);
+        }
 
 
         $video = New Video;
         $video->title = $request->title;
         $video->youtube_id = $request->youtube_id;
         $video->video__category_id = $request->video__category_id;
-        $video->filename = 'nofile';
+
 
         if($request->hasFile('image')){
 
@@ -64,6 +73,22 @@ class VideoAdminController extends Controller
             $video->image = $filename;
 
         }
+
+
+
+        if($request->hasFile('video')){
+
+            $videofile = $request->file('video');
+            $filename = time().'.'.$videofile->getClientOriginalExtension();
+            $path = public_path().'/videoligjerata/';
+            $videofile->move($path, $filename);
+            $video->filename = $filename;
+
+        }else{
+
+            $video->filename = 'nofile';
+        }
+
 
 
         $video->save();
