@@ -50,8 +50,8 @@
                                     <td> {{ $per->display_name }} </td>
                                     <td> {{ $per->description }} </td>
                                     <td class="hidden-xs hidden-sm"> {{ $per->created_at }} </td>
-                                    <td style="text-align:center"><a href="{{route('users.edit',$per->id)}}" class="col-12 col-md-12 btn-primary btn-block"> <i class="fa fa-edit"></i> </a>
-                                        <form action="{{route('users.destroy',$per->id)}}" id="form_delete" accept-charset="UTF-8" method="POST">
+                                    <td style="text-align:center"><a href="{{route('permissions.edit',$per->id)}}" class="col-12 col-md-12 btn-primary btn-block"> <i class="fa fa-edit"></i> </a>
+                                        <form action="{{route('permissions.destroy',$per->id)}}" id="form_delete" accept-charset="UTF-8" method="POST">
                                             {{ csrf_field() }}
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="id" value="{{$per->id}}">

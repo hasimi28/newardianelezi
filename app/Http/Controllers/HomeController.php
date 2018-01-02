@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class HomeController extends Controller
@@ -27,7 +28,7 @@ class HomeController extends Controller
     {
 
 
-         return view('welcome');
+            return view('welcome');
 
 
     }

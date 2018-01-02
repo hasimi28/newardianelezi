@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Answer;
 use App\Questions;
+use Illuminate\Support\Facades\Auth;
 use Mews\Purifier\Facades\Purifier;
 
 class AnswerController extends Controller
@@ -38,6 +39,7 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->can('on-answer')) {
         $this->validate($request, [
             'answer_title' => 'required',
             'answer' => 'required',
@@ -58,6 +60,11 @@ class AnswerController extends Controller
                     return redirect()->back();
 
                 }
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
             }
 
 
@@ -80,8 +87,15 @@ class AnswerController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('on-answer')) {
+
         $answer = Answer::findOrFail($id);
         return view('backend.pages.answer_edit')->withAnswer($answer);
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -93,6 +107,8 @@ class AnswerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Auth::user()->can('on-answer')) {
+
 
         $this->validate($request, [
             'answer_title' => 'required',
@@ -110,6 +126,11 @@ class AnswerController extends Controller
         $question->save();
 
         return redirect('backend/questions');
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**

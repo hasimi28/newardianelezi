@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Video_Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CatVideoController extends Controller
 {
@@ -15,8 +16,16 @@ class CatVideoController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('read-video')) {
+
+
         $categories = Video_Category::all();
         return view('backend.pages.video_category')->withCategories($categories);
+
+ } else{
+
+return redirect()->back()->with('success','Nuk keni qasje');
+}
     }
 
     /**
@@ -27,7 +36,17 @@ class CatVideoController extends Controller
     public function create()
     {
 
-        return view('backend.pages.add_videocategory');
+            if (Auth::user()->can('create-video')) {
+
+
+                return view('backend.pages.add_videocategory');
+
+            } else{
+
+                    return redirect()->back()->with('success','Nuk keni qasje');
+                }
+
+
     }
 
     /**
@@ -38,7 +57,7 @@ class CatVideoController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (Auth::user()->can('create-video')) {
 
         $this->validate($request, [
 
@@ -52,6 +71,11 @@ class CatVideoController extends Controller
         $category->save();
 
         return redirect('backend/categorymanager')->with('success','Kategoria u shtua me sukses');
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -73,8 +97,16 @@ class CatVideoController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('update-video')) {
+
+
         $cat = Video_Category::findOrFail($id);
         return view('backend.pages.edit_videocat')->withCat($cat);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
 
     }
 
@@ -87,6 +119,10 @@ class CatVideoController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        if (Auth::user()->can('update-video')) {
+
+
         $cat = Video_Category::find($id);
 
         $this->validate($request, [
@@ -100,6 +136,11 @@ class CatVideoController extends Controller
 
         return redirect('backend/categorymanager')->with('success','Kategoria u ndryshua me sukses');
 
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
+
     }
 
     /**
@@ -110,9 +151,19 @@ class CatVideoController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('delete-video')) {
+
+
+
         $cat = Video_Category::find($id);
         $cat->delete();
 
         return redirect('backend/categorymanager')->with('success','Kategoria u fshi me sukses');
+
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 }

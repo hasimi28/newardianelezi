@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\PostCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CategoryPost extends Controller
@@ -23,19 +24,35 @@ class CategoryPost extends Controller
      */
     public function index()
     {
-       $postcategory = PostCategory::orderBy('id','desc')->get();
+        if (Auth::user()->can('read-post')) {
+            $postcategory = PostCategory::orderBy('id', 'desc')->get();
 
-        return view('backend.pages.postcategory')->withPostcategory($postcategory);
+            return view('backend.pages.postcategory')->withPostcategory($postcategory);
+
+
+        }
+
+ else{
+
+return redirect()->back()->with('success','Nuk keni qasje');
+}
     }
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
+
     {
+
+        if (Auth::user()->can('create-post')) {
+
         return view('backend.pages.add_categorypost');
+    } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -47,7 +64,7 @@ class CategoryPost extends Controller
     public function store(Request $request)
     {
 
-
+        if (Auth::user()->can('create-post')) {
         $this->validate($request, [
             'name_sq' => 'required|unique:post_categories',
             'name_de' => 'required|unique:post_categories',
@@ -63,6 +80,11 @@ class CategoryPost extends Controller
         Session::flash('success','Kategoria u shtua me sukses');
 
         return redirect()->route('category.index');
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -84,8 +106,18 @@ class CategoryPost extends Controller
      */
     public function edit($id)
     {
+
+        if (Auth::user()->can('update-post')) {
+
+
        $cat = PostCategory::findOrFail($id);
        return view('backend.pages.edit_cat')->withCat($cat);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
+
     }
 
     /**
@@ -97,6 +129,11 @@ class CategoryPost extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
+        if (Auth::user()->can('update-post')) {
+
+
 
         $cat = PostCategory::findOrFail($id);
 
@@ -114,6 +151,11 @@ class CategoryPost extends Controller
         Session::flash('success','Kategoria u ndryshua me sukses');
 
         return redirect()->route('category.index');
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -124,10 +166,20 @@ class CategoryPost extends Controller
      */
     public function destroy($id)
     {
+
+        if (Auth::user()->can('delete-post')) {
+
+
         PostCategory::findOrFail($id)->delete();
 
         Session::flash('success','Kategoria u fshi me sukses');
 
         return redirect()->back();
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
+
     }
 }

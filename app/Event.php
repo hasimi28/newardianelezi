@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class Event extends Model
 {
+
     protected $fillable = ['ti_sq','ti_de','des_sq','des_de','datetime','adress'];
 
     protected $date = ['datetime'];

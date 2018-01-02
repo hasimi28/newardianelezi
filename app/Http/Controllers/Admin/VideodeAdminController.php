@@ -6,6 +6,7 @@ use App\Video_Category_De;
 use App\Video_de;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 
 class VideodeAdminController extends Controller
@@ -17,9 +18,18 @@ class VideodeAdminController extends Controller
      */
     public function index()
     {
+
+        if (Auth::user()->can('read-video')) {
+
+
         $video = Video_de::paginate(10);
 
         return view('backend.pages.video_de')->withVideo($video);
+
+        } else {
+
+            return redirect()->back()->with('success', 'Nuk keni qasje');
+        }
     }
 
     /**
@@ -29,8 +39,14 @@ class VideodeAdminController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->can('create-video')) {
         $cat = Video_Category_De::all();
         return view('backend.pages.add_video_de')->withCat($cat);
+
+        } else {
+
+            return redirect()->back()->with('success', 'Nuk keni qasje');
+        }
     }
 
     /**
@@ -41,6 +57,9 @@ class VideodeAdminController extends Controller
      */
     public function store(Request $request)
     {
+
+        if (Auth::user()->can('create-video')) {
+
         $this->validate($request, [
             'title' => 'required',
             'video__category_id' => 'required',
@@ -94,6 +113,11 @@ class VideodeAdminController extends Controller
 
         $video->save();
         return redirect('backend/videomanagerde');
+
+        } else {
+
+            return redirect()->back()->with('success', 'Nuk keni qasje');
+        }
     }
 
     /**
@@ -115,11 +139,19 @@ class VideodeAdminController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('update-video')) {
+
         $categories = Video_Category_De::all()->pluck('name','id');
         $video = Video_de::findOrFail($id);
 
 
         return view('backend.pages.edit_video_de')->withVideo($video)->withCategories($categories);
+
+
+        } else {
+
+            return redirect()->back()->with('success', 'Nuk keni qasje');
+        }
     }
 
     /**
@@ -131,12 +163,27 @@ class VideodeAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        if (Auth::user()->can('update-video')) {
+
         $this->validate($request, [
             'title' => 'required',
             'video__category_id' => 'required',
-            'youtube_id' => 'required',
+//            'youtube_id' => 'required',
 
         ]);
+
+
+        if($request->hasFile('video')){
+
+
+            $this->validate($request, [
+
+                'video' => 'required|mimes:mp4,avi,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv'
+
+            ]);
+        }
+
 
         $video = Video_de::findOrFail($id);
         $video->title = $request->title;
@@ -158,9 +205,32 @@ class VideodeAdminController extends Controller
             $video->image = $filename;
         }
 
+        if($request->hasFile('video')) {
+
+            $videofile = $request->file('video');
+            $filename = time() . '.' . $videofile->getClientOriginalExtension();
+            $path = public_path() . '/videoligjerata/';
+            $videofile->move($path, $filename);
+
+            if (file_exists('videoligjerata/' . $video->filename)) {
+                @unlink('videoligjerata/' . $video->filename);
+
+            }
+
+            $video->filename = $filename;
+        }else{
+
+            $video->filename = 'nofile';
+        }
 
         $video->save();
         return redirect('backend/videomanagerde');
+
+
+        } else {
+
+            return redirect()->back()->with('success', 'Nuk keni qasje');
+        }
     }
 
     /**
@@ -171,7 +241,33 @@ class VideodeAdminController extends Controller
      */
     public function destroy($id)
     {
-        Video_de::findOrFail($id)->delete();
-        return redirect('backend/videomanagerde');
+
+        if (Auth::user()->can('delete-video')) {
+
+       $video = Video_de::findOrFail($id);
+
+        if ($video->filename == 'nofile') {
+
+            $video->delete();
+
+            return redirect('backend/videomanagerde');
+        }else{
+
+            if (file_exists('videoligjerata/' . $video->filename)) {
+                @unlink('videoligjerata/' . $video->filename);
+
+            }
+
+            $video->delete();
+
+            return redirect('backend/videomanagerde');
+        }
+
+        } else {
+
+            return redirect()->back()->with('success', 'Nuk keni qasje');
+        }
     }
+
+
 }

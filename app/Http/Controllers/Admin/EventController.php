@@ -6,6 +6,7 @@ use App\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 
 class EventController extends Controller
@@ -17,8 +18,15 @@ class EventController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('read-event')) {
+
         $ev = Event::all();
         return view('backend.pages.event')->withEv($ev);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -28,7 +36,14 @@ class EventController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->can('create-event')) {
+
         return view('backend.pages.add_event');
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -39,6 +54,8 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+
+        if (Auth::user()->can('create-event')) {
         $event = new Event;
 
         $this->validate($request, [
@@ -78,6 +95,11 @@ class EventController extends Controller
 
         redirect('backend/event');
 
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -99,7 +121,16 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        if (Auth::user()->can('update-event')) {
+
+        $ev = Event::find($id);
+        return view('backend.pages.edit_event')->withEv($ev);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -111,7 +142,53 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+
+        if (Auth::user()->can('update-event')) {
+
+        $event = Event::find($id);
+
+        $this->validate($request, [
+            'title_sq' => 'required',
+            'title_de' => 'required',
+            'text_sq' => 'required',
+            'text_de' => 'required',
+            'datetime'   => 'required',
+
+        ]);
+
+        $event->ti_sq = $request->title_sq;
+        $event->ti_de = $request->title_de;
+        $event->des_sq = $request->text_sq;
+        $event->des_de = $request->text_de;
+        $event->adress = $request->adress;
+
+
+        $event->datetime = $request->datetime;
+
+        if($request->hasFile('image')) {
+
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('postimages/' . $filename);
+            Image::make($image)->resize(800, 600)->save($location);
+
+            if(file_exists('postimages/'.$event->image)){
+                @unlink('postimages/'.$event->image);
+            }
+
+            $event->image = $filename;
+        }
+
+        $event->save();
+
+        return redirect('backend/event')->with('success','Ky Event u ndryshua me sukses');
+
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -122,8 +199,16 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
+
+        if (Auth::user()->can('delete-event')) {
+
        Event::find($id)->delete();
        return redirect()->back()->with('success','Eventi u fshi me sukses');
 
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 }

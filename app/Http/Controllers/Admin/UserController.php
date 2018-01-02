@@ -38,7 +38,7 @@ class UserController extends Controller
         return view('backend.pages.users')->withUsers($users);
     }else{
 
-        return redirect()->back()->with('message','Nuk keni qasje');
+        return redirect()->back()->with('success','Nuk keni qasje');
     }
     }
     /**
@@ -47,8 +47,15 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
+
     {
+        if(Auth::user()->can('create-users')) {
         return view('backend.pages.create_users');
+
+    }else{
+
+        return redirect()->back()->with('success','Nuk keni qasje');
+    }
     }
 
     /**
@@ -72,6 +79,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        if(Auth::user()->can('create-users')) {
         $user = new User;
 
         try {
@@ -94,6 +102,10 @@ class UserController extends Controller
         return response()->json($user, 201);
 
 
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
 
     }
 
@@ -118,10 +130,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if(Auth::user()->can('update-users')) {
 
-        $roles = Role::all();
-        $user = User::where('id',$id)->with('roles')->first();
-        return view('backend.pages.edit_users')->withUser($user)->withRoles($roles);
+            $roles = Role::all();
+            $user = User::where('id',$id)->with('roles')->first();
+            return view('backend.pages.edit_users')->withUser($user)->withRoles($roles);
+        }
+
+   else{
+
+return redirect()->back()->with('success','Nuk keni qasje');
+}
     }
 
     /**
@@ -133,76 +152,86 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Auth::user()->can('edit-user')) {
-            try {
-                $this->validate($request, [
 
-                    'name' => 'required|max:25',
-                    'email' => 'required|email|unique:users,email,' . $id,
-
-                ]);
-            } catch (ValidationException $e) {
-                return response()->json($e->validator->errors(), 422);
-            }
+        if(Auth::user()->can('update-users')) {
 
 
-            if (Input::get('check') == 'yes') {
+            if (Auth::user()->can('edit-user')) {
                 try {
                     $this->validate($request, [
-                        'password' => 'required|min:6|confirmed',
-                        'password_confirmation' => 'required|min:6'
+
+                        'name' => 'required|max:25',
+                        'email' => 'required|email|unique:users,email,' . $id,
+
                     ]);
                 } catch (ValidationException $e) {
                     return response()->json($e->validator->errors(), 422);
                 }
 
 
-                $user = User::findOrFail($id);
+                if (Input::get('check') == 'yes') {
+                    try {
+                        $this->validate($request, [
+                            'password' => 'required|min:6|confirmed',
+                            'password_confirmation' => 'required|min:6'
+                        ]);
+                    } catch (ValidationException $e) {
+                        return response()->json($e->validator->errors(), 422);
+                    }
 
-                $user->name = Input::get('name');
-                $user->email = Input::get('email');
-                $user->password = Hash::make(Input::get('password'));
-                $user->save();
+
+                    $user = User::findOrFail($id);
+
+                    $user->name = Input::get('name');
+                    $user->email = Input::get('email');
+                    $user->password = Hash::make(Input::get('password'));
+                    $user->save();
 
 
-                if (Input::get('roles')) {
-                    $roles = Input::get('roles', []);
-                    $user->syncRoles($roles);
+                    if (Input::get('roles')) {
+                        $roles = Input::get('roles', []);
+                        $user->syncRoles($roles);
 
-                    return response()->json($user, 201);
+                        return response()->json($user, 201);
+
+                    } else {
+
+                        return response()->json($user, 201);
+                    }
+
 
                 } else {
 
-                    return response()->json($user, 201);
+
+                    $user = User::findOrFail($id);
+                    $user->name = Input::get('name');
+                    $user->email = Input::get('email');
+                    $user->save();
+
+                    if (Input::get('roles')) {
+                        $roles = Input::get('roles', []);
+                        $user->syncRoles($roles);
+
+                        return response()->json($user, 201);
+
+                    } else {
+
+                        return response()->json($user, 201);
+                    }
+
+
                 }
 
 
             } else {
 
-
-                $user = User::findOrFail($id);
-                $user->name = Input::get('name');
-                $user->email = Input::get('email');
-                $user->save();
-
-                if (Input::get('roles')) {
-                    $roles = Input::get('roles', []);
-                    $user->syncRoles($roles);
-
-                    return response()->json($user, 201);
-
-                } else {
-
-                    return response()->json($user, 201);
-                }
-
-
+                return response()->json('mes', 201);
             }
 
+        }
+        else{
 
-        }else{
-
-            return response()->json('mes', 201);
+            return redirect()->back()->with('success','Nuk keni qasje');
         }
 
     }
@@ -218,14 +247,22 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('delete-users')) {
 
-        $user = User::find($id)->delete();
+            $user = User::find($id)->delete();
 
-        if($user){
-            return redirect()->back()->with('success', 'Perdoruesi u fshi me sukses');
-        }else{
+            if ($user) {
+                return redirect()->back()->with('success', 'Perdoruesi u fshi me sukses');
+            } else {
 
-            return redirect()->back()->with('success', 'Gabim gjat fshirjes');
+                return redirect()->back()->with('success', 'Gabim gjat fshirjes');
+            }
+
+        }
+        else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
         }
     }
+
 }

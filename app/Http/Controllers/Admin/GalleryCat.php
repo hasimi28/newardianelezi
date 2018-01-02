@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CatGallery;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class GalleryCat extends Controller
@@ -17,8 +18,16 @@ class GalleryCat extends Controller
     public function index()
     {
 
+        if (Auth::user()->can('read-galery')) {
+
+
        $cat = CatGallery::all();
        return view('backend.pages.gallery_cat')->withCat($cat);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -39,6 +48,8 @@ class GalleryCat extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->can('create-galery')) {
+
         $this->validate($request, [
             'name_sq' => 'required|max:255',
             'name_de' => 'required|max:255',
@@ -54,6 +65,11 @@ class GalleryCat extends Controller
         Session::flash('success','Kategoria u shtua me sukses');
 
         return redirect()->back();
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -75,8 +91,15 @@ class GalleryCat extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('update-galery')) {
+
         $cat = CatGallery::findOrFail($id);
         return view('backend.pages.edit_gallerycat')->withCat($cat);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -88,6 +111,9 @@ class GalleryCat extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Auth::user()->can('update-galery')) {
+
+
         $this->validate($request, [
             'name_sq' => 'required|max:255',
             'name_de' => 'required|max:255',
@@ -102,6 +128,12 @@ class GalleryCat extends Controller
         Session::flash('success','Kategoria u ndryshua me sukses');
 
         return redirect('backend/gallerycat');
+
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -112,6 +144,9 @@ class GalleryCat extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->can('delete-galery')) {
+
+
         $cat = CatGallery::find($id);
 
         foreach ($cat->gallery as $gall) {
@@ -130,5 +165,10 @@ class GalleryCat extends Controller
 
         Session::flash('success','Kategoria u fshi me sukses');
         return redirect('backend/gallerycat');
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 }

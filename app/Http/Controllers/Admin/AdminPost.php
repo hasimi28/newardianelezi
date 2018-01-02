@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\PostCategory;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Mews\Purifier\Facades\Purifier;
 
@@ -27,10 +28,16 @@ class AdminPost extends Controller
      */
     public function index()
     {
-
+        if (Auth::user()->can('read-post')) {
             $post = Post::all();
 
             return view('backend.pages.view_post')->withPosts($post);
+
+        }
+        else{
+
+                return redirect()->back()->with('message','Nuk keni qasje');
+            }
     }
 
     /**
@@ -39,9 +46,17 @@ class AdminPost extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   $tags = Tag::all();
-        $postcategory = PostCategory::all();
-        return view('backend.pages.create_post')->withPostcategory($postcategory)->withTags($tags);
+    {
+        if (Auth::user()->can('create-post')) {
+
+            $tags = Tag::all();
+            $postcategory = PostCategory::all();
+            return view('backend.pages.create_post')->withPostcategory($postcategory)->withTags($tags);
+
+        }else{
+
+            return redirect()->back()->with('message','Nuk keni qasje');
+        }
     }
 
     /**
@@ -53,7 +68,7 @@ class AdminPost extends Controller
     public function store(Request $request)
     {
 
-
+        if (Auth::user()->can('create-post')) {
 
         $this->validate($request, [
             'title_sq' => 'required',
@@ -89,6 +104,12 @@ class AdminPost extends Controller
         $post->tags()->sync($request->tags,false);
 
         return redirect('backend/post')->with('success','Postimi u shtua me sukses');
+
+        }else{
+
+            return redirect()->back()->with('message','Nuk keni qasje');
+        }
+
     }
 
     /**
@@ -110,6 +131,8 @@ class AdminPost extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('update-post')) {
+
         $postcategory = PostCategory::all();
         $tags = Tag::all();
         $post = Post::find($id);
@@ -130,6 +153,12 @@ class AdminPost extends Controller
 
 
         return view('backend.pages.edit_post')->withPost($post)->withCategories($cats)->withTag($tag);
+
+        }else{
+
+            return redirect()->back()->with('message','Nuk keni qasje');
+        }
+
     }
 
     /**
@@ -141,6 +170,10 @@ class AdminPost extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        if (Auth::user()->can('update-post')) {
+
+
         $post = Post::find($id);
 
         $this->validate($request, [
@@ -190,6 +223,11 @@ class AdminPost extends Controller
             $post->tags()->sync(array());
         }
         return redirect()->back()->with('success','Ky Postim u ndryshua me sukses');
+
+        }else{
+
+            return redirect()->back()->with('message','Nuk keni qasje');
+        }
     }
 
     /**
@@ -200,6 +238,11 @@ class AdminPost extends Controller
      */
     public function destroy($id)
     {
+
+
+        if (Auth::user()->can('delete-post')) {
+
+
       $post = Post::find($id);
       $post->tags()->detach();
 
@@ -211,5 +254,12 @@ class AdminPost extends Controller
       $post->delete();
 
         return redirect('backend/post')->with('success','Postimi u fshi me sukses');
+
+        }else{
+
+            return redirect()->back()->with('message','Nuk keni qasje');
+        }
     }
+
+
 }

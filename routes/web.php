@@ -25,7 +25,7 @@ Route::prefix('backend')->middleware('role:superadministrator|administrator|edit
 Route::get('/','Admin\AdmController@dashboard');
 Route::resource('/users','Admin\UserController');
 Route::get('/dashboard','Admin\AdmController@dashboard')->name('backend.dashboard');
-Route::resource('/permissions', 'Admin\PermissionController', ['except' => 'destroy']);
+Route::resource('/permissions', 'Admin\PermissionController');
 Route::resource('/roles', 'Admin\RoleController', ['except' => 'destroy']);
 Route::resource('/post', 'Admin\AdminPost');
 Route::resource('/category', 'Admin\CategoryPost');
@@ -66,3 +66,4 @@ Route::get('/onvideo/{cat}', 'FindVideoController@bycategory');
 Route::get('/onvideode/{cat}/{videoname}/', 'FindVideoController@urlvideo_de');
 Route::get('/onvideode', 'FindVideoController@video_de');
 Route::get('/onvideode/{cat}', 'FindVideoController@bycategory_de');
+

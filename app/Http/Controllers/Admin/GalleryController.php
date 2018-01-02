@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -19,11 +20,16 @@ class GalleryController extends Controller
      */
     public function index()
     {
-
+        if (Auth::user()->can('read-galery')) {
 
         $cat = CatGallery::all();
         $galery = Gallery::all();
         return view('backend.pages.galery')->withCat($cat)->withGalery($galery);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -33,8 +39,14 @@ class GalleryController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->can('create-galery')) {
         $cat = CatGallery::all();
         return view('backend.pages.add_galery')->withCat($cat);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
 
     }
 
@@ -46,7 +58,7 @@ class GalleryController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (Auth::user()->can('create-galery')) {
         $gallery = new Gallery;
 
             $img = $request->file('file');
@@ -69,7 +81,10 @@ class GalleryController extends Controller
             $gallery->save();
         }
 
+        } else{
 
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
 
     }
 
@@ -120,6 +135,8 @@ class GalleryController extends Controller
 
     public function destroy($id)
     {
+        if (Auth::user()->can('delete-galery')) {
+
 
         $gal = Gallery::find($id);
 
@@ -131,6 +148,11 @@ class GalleryController extends Controller
         $gal->delete();
 
         return redirect('backend/gallery')->with('success','Foto u fshi me sukses');
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
 }
 
 
