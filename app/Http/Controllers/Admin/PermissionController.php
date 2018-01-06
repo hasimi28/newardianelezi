@@ -157,6 +157,7 @@ class PermissionController extends Controller
             ]);
             $permission = Permission::findOrFail($id);
             $permission->display_name = $request->display_name;
+            $permission->name = $request->name;
             $permission->description = $request->description;
             $permission->save();
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Questions;
 use App\Asker;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Mews\Purifier\Facades\Purifier;
 
 class QuestionAdmController extends Controller
@@ -17,9 +19,15 @@ class QuestionAdmController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->can('on-answer')) {
         $questions = Questions::all();
 
         return view('backend.pages.questions')->withQuestions($questions);
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -28,8 +36,13 @@ class QuestionAdmController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {        if (Auth::user()->can('on-answer')) {
         return view('backend.pages.add_question');
+    }else{
+
+        return redirect()->back()->with('success','Nuk keni qasje');
+    }
+
     }
 
     /**
@@ -40,6 +53,7 @@ class QuestionAdmController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->can('on-answer')) {
         $this->validate($request, [
             'question' => 'required',
             'question_title' => 'required',
@@ -61,6 +75,11 @@ class QuestionAdmController extends Controller
 
             return redirect('backend/questions/'.$question->id)->with('success', 'Pyetja juaj u shtua me sukses');
         }
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -71,8 +90,14 @@ class QuestionAdmController extends Controller
      */
     public function show($id)
     {
+        if (Auth::user()->can('on-answer')) {
         $question = Questions::findOrFail($id);
         return view('backend.pages.viewquestion')->withQuestion($question);
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -83,8 +108,14 @@ class QuestionAdmController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->can('on-answer')) {
         $questions = Questions::findOrFail($id);
         return view('backend.pages.question_edit')->withQuestions($questions);
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -96,6 +127,8 @@ class QuestionAdmController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Auth::user()->can('on-answer')) {
+
         $questions = Questions::findOrFail($id);
 
         $questions->question_title = $request->question_title;
@@ -104,6 +137,12 @@ class QuestionAdmController extends Controller
         $questions->save();
 
         return redirect()->back()->with('success','Pyetja u ndryshua me sukses');
+
+
+        }else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -114,13 +153,39 @@ class QuestionAdmController extends Controller
      */
     public function destroy($id)
     {
-           $questions = Questions::findOrFail($id);
-           $questions->asker->delete();
 
 
-           $questions->delete();
+        $val = input::get('val');
 
-            return redirect('backend/questions')->with('success','Pyetja u fshi me sukses');
+        if (Auth::user()->can('on-answer')) {
+
+
+            $questions = Questions::findOrFail($val);
+            $questions->asker->delete();
+
+
+            $questions->delete();
+
+
+
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
+
+
+        } else{
+
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
+        }
+
+
 
     }
+
+
+
 }

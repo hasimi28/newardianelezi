@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 
 class EventController extends Controller
@@ -93,7 +94,7 @@ class EventController extends Controller
 
         $event->save();
 
-        redirect('backend/event');
+            return redirect('backend/event')->with('success','Eventi u shtua me sukses');
 
 
         } else{
@@ -110,7 +111,15 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        if (Auth::user()->can('read-event')) {
+
+            $ev = Event::all();
+            return view('backend.pages.event')->withEv($ev);
+
+        } else{
+
+            return redirect()->back()->with('success','Nuk keni qasje');
+        }
     }
 
     /**
@@ -199,16 +208,23 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-
+        $val = input::get('val');
         if (Auth::user()->can('delete-event')) {
 
-       Event::find($id)->delete();
-       return redirect()->back()->with('success','Eventi u fshi me sukses');
+       Event::find($val)->delete();
+
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
 
 
         } else{
 
-            return redirect()->back()->with('success','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
         }
     }
 }

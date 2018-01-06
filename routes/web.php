@@ -39,7 +39,20 @@ Route::resource('/categorymanagerde', 'Admin\CatVideoDeController');
 Route::resource('/gallery', 'Admin\GalleryController');
 //Route::post('dropzone/delete', ['as' => 'dropzone.delete', 'uses' => 'GalleryController@dropzoneDelete']);
 Route::resource('/gallerycat', 'Admin\GalleryCat');
-    Route::resource('/event', 'Admin\EventController');
+Route::resource('/event', 'Admin\EventController');
+Route::post('/del_all_post','Admin\AjaxController@del_all_post');
+Route::post('/del_all_tags','Admin\AjaxController@del_all_tags');
+Route::post('/del_all_questions','Admin\AjaxController@del_all_questions');
+Route::post('/del_all_video','Admin\AjaxController@del_all_video');
+Route::post('/del_all_videode','Admin\AjaxController@del_all_videode');
+Route::post('/del_all_videokatsq','Admin\AjaxController@del_all_videokatsq');
+Route::post('/del_all_videokatde','Admin\AjaxController@del_all_videokatde');
+Route::post('/del_all_event','Admin\AjaxController@del_all_event');
+Route::post('/del_all_users','Admin\AjaxController@del_all_users');
+
+
+
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

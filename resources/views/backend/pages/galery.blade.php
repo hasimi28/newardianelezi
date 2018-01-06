@@ -106,13 +106,13 @@
 
 
                 @foreach($galery as $gal)
-                <div class="gallery_product col-lg-2 col-md-4 col-sm-4 col-xs-6 filter {{$gal->catgallery->id}}"  style="text-align:center;">
+                <div class="gallery_product col-lg-2 col-md-4 col-sm-4 col-xs-6 filter {{$gal->catgallery->id}}"  id="tr_with_{{$gal->id}}" style="text-align:center;">
                     <img src="{{asset('gallery/'.$gal->image)}}" class="img-responsive">
                     <form action="{{route('gallery.destroy',$gal->id)}}" id="form_delete" accept-charset="UTF-8" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="id" value="{{$gal->id}}">
-                        <button type="submit"  class="col-12 col-md-12 btn-danger btn-block"><i class="fa fa-trash"></i></button>
+                        <button type="submit"  onclick="event.preventDefault();  ondelete({{$gal->id}});"  class="col-12 col-md-12 btn-danger btn-block"><i class="fa fa-trash"></i></button>
                     </form>
                 </div>
                 @endforeach
@@ -170,5 +170,76 @@
                  $('#enlargeImageModal').modal('show');
              });
          });
+
+
+
+
+         function ondelete(id){
+
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 }
+             });
+
+
+             swal({
+                 title: "Jeni i sigurt?",
+                 text: "Je i sigurt se deshiron te vazhdosh fshirjen!",
+                 type: "warning",
+                 showCancelButton: true,
+                 confirmButtonText: "Po!",
+                 cancelButtonText: "Jo,Anuloje!",
+                 closeOnConfirm: false,
+                 closeOnCancel: false
+             }, function(isConfirm) {
+                 if (isConfirm) {
+                     $.ajax({
+                         @if($galery->count()) @foreach ($galery as $k) url: "{{route('gallery.destroy',$k->id)}}", @endforeach @endif
+
+                         type: 'DELETE',
+                         data: {val: id},
+                         success: function (msg) {
+                             if (msg.status === 'success') {
+
+                                 $.notify({
+                                     title: "Sukses : ",
+                                     message: "Foto u fshi me sukses",
+                                     icon: 'fa fa-check'
+
+                                 },{
+                                     type: "info"
+                                 });
+
+                                 setInterval(function () {
+
+                                     $('#tr_with_'+id).hide();
+
+
+                                     $('#status_load').html("");
+
+
+                                 }, 1000);
+
+                                 swal("Success!", "Foto u fshi me sukses.", "success");
+                             }
+
+                         },
+                         error: function (data) {
+                             if (data.status === 422) {
+                                 toastr.error('Cannot delete the category');
+                             }
+                         }
+                     });
+
+
+                 } else {
+                     swal("Anuluar", "fshirja u anulua :)", "error");
+                 }
+
+             });
+
+
+         }
 </script>
     @endsection

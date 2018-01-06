@@ -113,24 +113,24 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    {{--<div class="form-group">--}}
 
-                                        <label class="col-lg-2 control-label" for="name">Slug Sq</label>
-                                        <div class="col-lg-10">
-                                            <input class="form-control" name="slug_sq" id="name" type="text" placeholder="Slug Shqip" required=""
-                                                   data-parsley-required-message="@lang('app_lang.parsley_required')">
-                                        </div>
-                                    </div>
+                                        {{--<label class="col-lg-2 control-label" for="name">Slug Sq</label>--}}
+                                        {{--<div class="col-lg-10">--}}
+                                            {{--<input class="form-control" name="slug_sq" id="name" type="text" placeholder="Slug Shqip" required=""--}}
+                                                   {{--data-parsley-required-message="@lang('app_lang.parsley_required')">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
 
-                                    <div class="form-group">
+                                    {{--<div class="form-group">--}}
 
-                                        <label class="col-lg-2 control-label" for="name">Slug De</label>
-                                        <div class="col-lg-10">
-                                            <input class="form-control" name="slug_de" id="name" type="text" placeholder="Slug Deutch" required=""
-                                                   data-parsley-required-message="@lang('app_lang.parsley_required')">
-                                        </div>
-                                    </div>
+                                        {{--<label class="col-lg-2 control-label" for="name">Slug De</label>--}}
+                                        {{--<div class="col-lg-10">--}}
+                                            {{--<input class="form-control" name="slug_de" id="name" type="text" placeholder="Slug Deutch" required=""--}}
+                                                   {{--data-parsley-required-message="@lang('app_lang.parsley_required')">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
                                     <div class="form-group">
 
@@ -145,7 +145,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Text DE</label>
                                         <div class="col-lg-10">
-                                            <textarea class="form-control" id="textArea" name="desc_de" rows="3"  required=""
+                                            <textarea class="form-control" id="textArea" name="desc_de" rows="3"
                                                       data-parsley-required-message="@lang('app_lang.parsley_required')"></textarea><span class="help-block"></span>
                                         </div>
                                     </div>

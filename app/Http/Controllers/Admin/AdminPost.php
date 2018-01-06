@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use App\PostCategory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use Mews\Purifier\Facades\Purifier;
 
@@ -71,10 +72,9 @@ class AdminPost extends Controller
         if (Auth::user()->can('create-post')) {
 
         $this->validate($request, [
-            'title_sq' => 'required',
-            'title_de' => 'required',
-            'slug_sq' => 'required|alpha_dash|min:5|max:255|unique:posts,slug_sq',
-            'slug_de' => 'required|alpha_dash|min:5|max:255|unique:posts,slug_de',
+            'title_sq' => 'required|min:5|max:255|unique:posts,title_sq',
+            'title_de' => 'required|min:5|max:255|unique:posts,title_de',
+
             'desc_sq' => 'required',
             'desc_de' => 'required',
             'image' => 'required|image',
@@ -82,10 +82,16 @@ class AdminPost extends Controller
 
         $post = new Post;
 
+
+
+        $slug_sq = str_slug($request->title_sq, "-");
+        $slug_de = str_slug($request->title_de, "-");
+
+
         $post->title_sq = $request->title_sq;
         $post->title_de = $request->title_de;
-        $post->slug_sq =  $request->slug_sq;
-        $post->slug_de = $request->slug_de;
+        $post->slug_sq =  $slug_sq;
+        $post->slug_de =  $slug_de;
         $post->desc_sq = Purifier::clean($request->desc_sq);
         $post->desc_de = Purifier::clean($request->desc_de);
         $post->category_id = $request->category_id;
@@ -177,21 +183,21 @@ class AdminPost extends Controller
         $post = Post::find($id);
 
         $this->validate($request, [
-            'title_sq' => 'required',
-            'title_de' => 'required',
-            'slug_sq' => 'required|alpha_dash|min:5|max:255|unique:posts,slug_sq,' . $post->id,
-            'slug_de' => 'required|alpha_dash|min:5|max:255|unique:posts,slug_de,' . $post->id,
+            'title_sq' => 'required|min:5|max:255|unique:posts,slug_sq,' . $post->id,
+            'title_de' => 'required|min:5|max:255|unique:posts,slug_de,' . $post->id,
             'desc_sq' => 'required',
             'desc_de' => 'required',
             'image'   => 'image',
         ]);
 
 
+            $slug_sq = str_slug($request->title_sq, "-");
+            $slug_de = str_slug($request->title_de, "-");
 
         $post->title_sq = $request->title_sq;
         $post->title_de = $request->title_de;
-        $post->slug_sq =  $request->slug_sq;
-        $post->slug_de = $request->slug_de;
+        $post->slug_sq =  $slug_sq;
+        $post->slug_de =  $slug_de;
         $post->desc_sq = Purifier::clean($request->desc_sq);
         $post->desc_de = Purifier::clean($request->desc_de);
         $post->category_id = $request->category_id;
@@ -238,12 +244,12 @@ class AdminPost extends Controller
      */
     public function destroy($id)
     {
-
+        $val = input::get('val');
 
         if (Auth::user()->can('delete-post')) {
 
 
-      $post = Post::find($id);
+      $post = Post::find($val);
       $post->tags()->detach();
 
 
@@ -253,11 +259,17 @@ class AdminPost extends Controller
 
       $post->delete();
 
-        return redirect('backend/post')->with('success','Postimi u fshi me sukses');
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
 
         }else{
 
-            return redirect()->back()->with('message','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
         }
     }
 

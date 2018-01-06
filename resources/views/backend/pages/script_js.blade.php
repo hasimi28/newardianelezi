@@ -12,3 +12,5 @@
 {!! Html::script('js/plugins/select2.min.js') !!}
 <script src="{{asset('js/plugins/moment.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('datetime/bootstrap-datetimepicker.min.js')}}"></script>
+{!! Html::script('js/plugins/sweetalert.min.js') !!}
+{!! Html::script('js/plugins/bootstrap-notify.min.js') !!}

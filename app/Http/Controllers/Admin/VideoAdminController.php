@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Video;
 use App\Video_Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 
 class VideoAdminController extends Controller
@@ -240,16 +241,22 @@ class VideoAdminController extends Controller
      */
     public function destroy($id)
     {
+
+        $val = input::get('val');
+
         if (Auth::user()->can('delete-video')) {
 
-            $video = Video::findOrFail($id);
+            $video = Video::findOrFail($val);
 
 
             if ($video->filename == 'nofile') {
 
                 $video->delete();
 
-                return redirect('backend/videomanager');
+                return response()->json([
+                    'success' => true,
+                    'status' => 'success'
+                ], 200);
             } else {
 
                 if (file_exists('videoligjerata/' . $video->filename)) {
@@ -259,11 +266,17 @@ class VideoAdminController extends Controller
 
                 $video->delete();
 
-                return redirect('backend/videomanager');
+                return response()->json([
+                    'success' => true,
+                    'status' => 'success'
+                ], 200);
             }
         } else{
 
-return redirect()->back()->with('success','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
 }
 
 

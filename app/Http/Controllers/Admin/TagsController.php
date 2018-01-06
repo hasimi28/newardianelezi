@@ -6,6 +6,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 class TagsController extends Controller
@@ -23,17 +24,14 @@ class TagsController extends Controller
     public function index()
     {
 
-        if (Auth::user()->can('read-tags')) {
+
 
 
         $tags = Tag::all();
         return view('backend.pages.view_tags')->withTags($tags);
 
 
-        } else{
 
-            return redirect()->back()->with('success','Nuk keni qasje');
-        }
     }
 
     /**
@@ -137,6 +135,7 @@ class TagsController extends Controller
         $this->validate($request, [
             'name_sq' => 'required|max:255',
             'name_de' => 'required|max:255',
+
         ]);
 
         $tag = Tag::findOrFail($id);
@@ -165,19 +164,27 @@ class TagsController extends Controller
     public function destroy($id)
     {
 
+        $val = input::get('val');
+
         if (Auth::user()->can('delete-tags')) {
 
-        $tag = Tag::find($id);
+        $tag = Tag::find($val);
         $tag->posts()->detach();
 
         $tag->delete();
 
         Session::flash('success','Tagi u fshi me sukses');
-        return redirect('backend/tags');
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
 
         } else{
 
-            return redirect()->back()->with('success','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
         }
     }
 }

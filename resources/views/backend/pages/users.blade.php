@@ -17,6 +17,7 @@
                 </ul>
             </div>
         </div>
+        <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -33,7 +34,7 @@
                             <tr>
 
 
-                                <th class="hidden-sm hidden-xs">ID</th>
+                                <th class="hidden-sm hidden-xs"><input type="checkbox" id="checkall" /> All </th>
                                 <th class="hidden-sm hidden-xs">Name</th>
                                 <th>Email</th>
                                 <th class="hidden-sm hidden-xs">Created</th>
@@ -45,8 +46,9 @@
 
                                 @foreach($users as $user)
 
-                                    <tr>
-                                    <td class="hidden-sm hidden-xs"> {{ $user->id }} </td>
+
+                                    <tr class="tr_with_{{$user->id}}">
+                                        <td><input type="checkbox" class="checkthis hidden-sm hidden-xs" value="{{$user->id}}" /> ID - {{$user->id}} </td>
                                     <td class="hidden-sm hidden-xs"> {{ $user->name }} </td>
                                     <td> {{ $user->email }} </td>
                                     <td class="hidden-sm hidden-xs"> {{ $user->created_at }} </td>
@@ -55,7 +57,7 @@
                                             {{ csrf_field() }}
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="id" value="{{$user->id}}">
-                                            <p> <button type="submit"  class="col-12 col-md-12 btn-danger btn-block delete"><i class="fa fa-trash"></i></button></p>
+                                            <p> <button type="submit" onclick="event.preventDefault();  ondelete({{$user->id}});"  class="col-12 col-md-12 btn-danger btn-block delete"><i class="fa fa-trash"></i></button></p>
                                         </form>
 
                                        </td>
@@ -80,7 +82,7 @@
     @endsection
 
 @section('js')
-
+    @include('backend.pages.js_files.delete_users_js')
     @include('include.datatable')
 
 @endsection

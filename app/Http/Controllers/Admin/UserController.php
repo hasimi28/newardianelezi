@@ -247,21 +247,33 @@ return redirect()->back()->with('success','Nuk keni qasje');
      */
     public function destroy($id)
     {
+
+        $val = input::get('val');
+
         if (Auth::user()->can('delete-users')) {
 
-            $user = User::find($id)->delete();
+            $user = User::find($val)->delete();
 
             if ($user) {
-                return redirect()->back()->with('success', 'Perdoruesi u fshi me sukses');
+                return response()->json([
+                    'success' => true,
+                    'status' => 'success'
+                ], 200);
             } else {
 
-                return redirect()->back()->with('success', 'Gabim gjat fshirjes');
+                return response()->json([
+                    'success' => false,
+                    'status' => 'Nuk keni qasje'
+                ], 200);
             }
 
         }
         else{
 
-            return redirect()->back()->with('success','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
         }
     }
 

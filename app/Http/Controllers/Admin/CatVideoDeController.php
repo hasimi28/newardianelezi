@@ -6,6 +6,7 @@ use App\Video_Category_De;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class CatVideoDeController extends Controller
 {
@@ -152,17 +153,26 @@ class CatVideoDeController extends Controller
      */
     public function destroy($id)
     {
+
+        $val = input::get('val');
+
         if (Auth::user()->can('delete-video')) {
 
+            $cat = Video_Category_De::find($val);
+            $cat->delete();
 
-        $cat = Video_Category_De::find($id);
-        $cat->delete();
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
 
-        return redirect('backend/categorymanagerde')->with('success','Kategoria u fshi me sukses');
 
         } else{
 
-            return redirect()->back()->with('success','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
         }
     }
 }

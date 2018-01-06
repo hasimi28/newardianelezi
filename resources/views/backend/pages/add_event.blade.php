@@ -102,7 +102,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Text SQ</label>
                                         <div class="col-lg-10">
-                                            <textarea class="form-control" id="textArea" name="text_sq" rows="3"
+                                            <textarea class="form-control" id="content_sq" name="text_sq" rows="3"
                                                       data-parsley-required-message="@lang('app_lang.parsley_required')"></textarea><span class="help-block"></span>
                                         </div>
                                     </div>
@@ -111,7 +111,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Text DE</label>
                                         <div class="col-lg-10">
-                                            <textarea class="form-control" id="textArea" name="text_de" rows="3"  
+                                            <textarea class="form-control" id="content_de" name="text_de" rows="3"
                                                       data-parsley-required-message="@lang('app_lang.parsley_required')"></textarea><span class="help-block"></span>
                                         </div>
                                     </div>
@@ -120,7 +120,7 @@
 
                                         <label class="col-lg-2 control-label" for="name">Lokacioni</label>
                                         <div class="col-lg-10">
-                                            <input class="form-control" name="adress" id="title_de" type="text" placeholder="Lokacioni"  required=""
+                                            <input class="form-control" name="adress" id="location" type="text" placeholder="Lokacioni"  required=""
                                                    data-parsley-required-message="@lang('app_lang.parsley_required')">
                                         </div>
                                     </div>
@@ -141,7 +141,7 @@
                                         <label class="col-lg-2 control-label" for="name">Date</label>
                                         <div class="col-lg-10">
                                             <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' name="datetime" class="form-control" />
+                                                <input type='text' name="datetime" class="form-control"  id="datetime"/>
                                                 <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>

@@ -22,6 +22,7 @@
             <div class="card">
                 <div class="row">
                     <div class="col-lg-12">
+
                         <div class="well bs-component"  style="word-wrap: break-word">
 
                                 <fieldset>

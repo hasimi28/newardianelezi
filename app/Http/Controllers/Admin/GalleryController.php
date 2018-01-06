@@ -135,10 +135,13 @@ class GalleryController extends Controller
 
     public function destroy($id)
     {
+
+        $val = input::get('val');
+
         if (Auth::user()->can('delete-galery')) {
 
 
-        $gal = Gallery::find($id);
+        $gal = Gallery::find($val);
 
 
         if(file_exists('gallery/'.$gal->image)){
@@ -147,11 +150,17 @@ class GalleryController extends Controller
 
         $gal->delete();
 
-        return redirect('backend/gallery')->with('success','Foto u fshi me sukses');
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
 
         } else{
 
-            return redirect()->back()->with('success','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
         }
 }
 
