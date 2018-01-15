@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 
@@ -49,7 +50,7 @@ Route::post('/del_all_videokatsq','Admin\AjaxController@del_all_videokatsq');
 Route::post('/del_all_videokatde','Admin\AjaxController@del_all_videokatde');
 Route::post('/del_all_event','Admin\AjaxController@del_all_event');
 Route::post('/del_all_users','Admin\AjaxController@del_all_users');
-
+Route::post('/del_cat_post','Admin\AjaxController@del_cat_post');
 
 
 
@@ -79,4 +80,6 @@ Route::get('/onvideo/{cat}', 'FindVideoController@bycategory');
 Route::get('/onvideode/{cat}/{videoname}/', 'FindVideoController@urlvideo_de');
 Route::get('/onvideode', 'FindVideoController@video_de');
 Route::get('/onvideode/{cat}', 'FindVideoController@bycategory_de');
+Route::get('/sendemail', 'SendEmailController@SendMessage');
+
 

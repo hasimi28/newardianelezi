@@ -45,6 +45,7 @@
                     <!--SECTION HDG END-->
                     <div class="kode_blog_list">
                         <ul>
+
                             @foreach($new_post as $p)
                             <li>
                                 <div class="kode_blog_fig">

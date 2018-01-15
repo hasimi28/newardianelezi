@@ -83,16 +83,6 @@
 
                 </ul>
             </li>
-
-            <li class="treeview"><a href="#"><i class="fa fa-users"></i><span>Video</span><i class="fa fa-angle-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{route('videomanager.index')}}"><i class="fa fa-circle-o"></i> Video Shqip </a></li>
-                    <li><a href="{{route('videomanager.create')}}"><i class="fa fa-circle-o"></i> Add Video Shqip </a></li>
-                    <li><a href="{{route('videomanagerde.index')}}"><i class="fa fa-circle-o"></i> Video Gjermanisht </a></li>
-                    <li><a href="{{route('videomanagerde.create')}}"><i class="fa fa-circle-o"></i> Add Video Gjermanisht </a></li>
-
-                </ul>
-            </li>
             <li class="treeview"><a href="#"><i class="fa fa-users"></i><span>Video Category</span><i class="fa fa-angle-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{route('categorymanager.index')}}"><i class="fa fa-circle-o"></i> Kategorit Shqip </a></li>
@@ -102,6 +92,16 @@
 
                 </ul>
             </li>
+            <li class="treeview"><a href="#"><i class="fa fa-users"></i><span>Video</span><i class="fa fa-angle-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('videomanager.index')}}"><i class="fa fa-circle-o"></i> Video Shqip </a></li>
+                    <li><a href="{{route('videomanager.create')}}"><i class="fa fa-circle-o"></i> Add Video Shqip </a></li>
+                    <li><a href="{{route('videomanagerde.index')}}"><i class="fa fa-circle-o"></i> Video Gjermanisht </a></li>
+                    <li><a href="{{route('videomanagerde.create')}}"><i class="fa fa-circle-o"></i> Add Video Gjermanisht </a></li>
+
+                </ul>
+            </li>
+
 
             <li class="treeview"><a href="#"><i class="fa fa-users"></i><span>Galery</span><i class="fa fa-angle-right"></i></a>
                 <ul class="treeview-menu">

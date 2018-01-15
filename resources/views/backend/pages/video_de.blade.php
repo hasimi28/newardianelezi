@@ -99,6 +99,25 @@
 @endsection
 
 @section('js')
+
+
+    @if (\Session::has('success'))
+
+        <script>
+
+            $.notify({
+                title: "Sukses : ",
+                message: "Video u shtua me sukses",
+                icon: 'fa fa-check'
+
+            },{
+                type: "info"
+            });
+        </script>
+
+    @endif
+
+
     <script>
         $("#checkall").click(function () {
             $('#sampleTable tbody input[type="checkbox"]').prop('checked', this.checked);

@@ -27,25 +27,20 @@
 
 
                                 <div class="form-group">
-                                    <a href="{{route('questions.create')}}" class="btn  btn-primary icon-btn" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add New</a>
+                                    <a href="{{route('questions.create')}}" class="btn  btn-primary icon-btn" type="submit" style="float:right;"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add New</a>
+                                    <p style="float:left;margin-right:10px;"> Select All <input type="checkbox" id="checkall"  /> </p>   <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
+
                                 </div>
 
     <hr>
+                        <br>
 
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-
-                                    <p>{!! \Session::get('success') !!}</p>
-
-                            </div>
-                        @endif
-                        <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
                         <table class="table table-hover table-bordered" id="sampleTable">
 
                             <thead>
                             <tr>
-                                <th class="hidden-sm hidden-xs"><input type="checkbox" id="checkall" /> All </th>
 
+                                <th>ID</th>
                                 <th>Titulli I Pyetjes</th>
                                 <th>Emri</th>
                                 <th>Email</th>
@@ -60,7 +55,7 @@
                                 @foreach($questions as $qu)
 
                                     <tr class="tr_with_{{$qu->id}}">
-                                        <td><input type="checkbox" class=" hidden-sm hidden-xs checkthis" value="{{$qu->id}}" /> ID - {{$qu->id}} </td>
+                                        <td><input type="checkbox" class=" hidden-sm hidden-xs checkthis" value="{{$qu->id}}" />  {{$qu->id}} </td>
 
                                     <td> <a href="{{route('questions.show',$qu->id)}}"> {{ $qu->question_title }} </a></td>
                                         <td> {{ $qu->asker->name }} </td>
@@ -97,6 +92,22 @@
     @endsection
 
     @section('js')
+
+        @if (\Session::has('success'))
+
+            <script>
+
+                $.notify({
+                    title: "Sukses : ",
+                    message: "Pyetja u shtua me sukses",
+                    icon: 'fa fa-check'
+
+                },{
+                    type: "info"
+                });
+            </script>
+        @endif
+
         <script>
             $("#checkall").click(function () {
                 $('#sampleTable tbody input[type="checkbox"]').prop('checked', this.checked);

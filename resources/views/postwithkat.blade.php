@@ -106,7 +106,7 @@
                         <div class="siderbar_categories margin">
                             <h4 class="sidebar_title">Categories</h4>
                             <ul class="categories_detail">
-                @foreach($category5 as $cat) <li><a href="{{url('/category',strtolower($cat->NameTrans('name')))}}">{{$cat->NameTrans('name')}}</a></li>@endforeach
+              @if($category5->count())  @foreach($category5 as $cat) <li><a href="{{url('/category',strtolower($cat->NameTrans('name')))}}">{{$cat->NameTrans('name')}}</a></li>@endforeach @endif
                             </ul>
                         </div>
                         <!--SIDEBAR CATEGORIES MARGIN END-->

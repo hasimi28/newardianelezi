@@ -20,17 +20,16 @@
         <div class="col-md-12">
             <div id="status_load" style="text-align:center;color:teal"></div>
             <div class="card">
+
                 <div class="form-group">
-                    <a href="{{route('categorymanager.create')}}" class="btn  btn-primary icon-btn" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Shto Kategori </a>
+                    <a href="{{route('categorymanager.create')}}" class="btn  btn-primary icon-btn" type="submit" style="float:right;"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add New</a>
+                    <p style="float:left;margin-right:10px;"> Select All <input type="checkbox" id="checkall"  /> </p>   <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
+
                 </div>
+                <br>   <br>
+
                 <div class="row">
-                    @if (\Session::has('success'))
-                        <div class="alert alert-success">
 
-                            <p>{!! \Session::get('success') !!}</p>
-
-                        </div>
-                    @endif
                     @if ($errors->any())
                         <div class="alert alert-danger">
 
@@ -44,13 +43,13 @@
                     <div class="col-md-12">
 
                         <div class="well bs-component">
-                            <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
+
                             <table class="table table-hover table-bordered" id="sampleTable">
                                 <thead>
                                 <tr>
 
 
-                                    <th class="hidden-sm hidden-xs"><input type="checkbox" id="checkall" /> All </th>
+                                    <th class="hidden-sm hidden-xs"> ID </th>
                                     <th>Name</th>
                                     <th>Video</th>
                                     <th class="hidden-sm hidden-xs">Created</th>
@@ -63,7 +62,7 @@
                                 @foreach($categories as $category)
 
                                     <tr class="tr_with_{{$category->id}}">
-                                        <td><input type="checkbox" class="hidden-sm hidden-xs checkthis" value="{{$category->id}}" /> ID - {{$category->id}} </td>
+                                        <td><input type="checkbox" class="hidden-sm hidden-xs checkthis" value="{{$category->id}}" />  {{$category->id}} </td>
                                         <td> {{ $category->name }} </td>
                                         <td>@if(!empty($category->video))  {{ $category->video->count() }} @else 0 @endif </td>
                                         <td> {{ $category->created_at }} </td>
@@ -102,7 +101,24 @@
 @endsection
 
 @section('js')
-    <script>
+
+    @if (\Session::has('success'))
+
+        <script>
+
+            $.notify({
+                title: "Sukses : ",
+                message: "Kategoria u shtua me sukses",
+                icon: 'fa fa-check'
+
+            },{
+                type: "info"
+            });
+        </script>
+@endif
+
+
+        <script>
         $("#checkall").click(function () {
             $('#sampleTable tbody input[type="checkbox"]').prop('checked', this.checked);
         });

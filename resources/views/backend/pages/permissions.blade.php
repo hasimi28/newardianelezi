@@ -21,13 +21,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
 
-                                    <p>{!! \Session::get('success') !!}</p>
-
-                            </div>
-                        @endif
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                             <tr>
@@ -80,6 +74,24 @@
     @endsection
 
 @section('js')
+
+
+
+    @if (\Session::has('success'))
+
+        <script>
+
+            $.notify({
+                title: "Sukses : ",
+                message: "Permissions u shtua me sukses",
+                icon: 'fa fa-check'
+
+            },{
+                type: "info"
+            });
+        </script>
+    @endif
+
 
     @include('include.datatable')
 

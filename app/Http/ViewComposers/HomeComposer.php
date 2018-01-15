@@ -15,7 +15,8 @@ use App\Event;
 Class HomeComposer{
 
 
-        public function compose(View $view){
+        public function compose(View $view)
+        {
 
             $longitude = 7.588576;
             $latitude = 47.559599;
@@ -36,47 +37,59 @@ Class HomeComposer{
             $jacia = $times->isha->format('h:i a');
 
 
-            $array = ['kohet' => ['imsaku' => $imsaku,'dreka'=>$dreka,'ikindia'=>$ikindia,'akshami'=>$akshami,'jacia'=>$jacia]];
+            $array = ['kohet' => ['imsaku' => $imsaku, 'dreka' => $dreka, 'ikindia' => $ikindia, 'akshami' => $akshami, 'jacia' => $jacia]];
 
             $category = PostCategory::all();
-            $category5 = PostCategory::all()->random()->get();;
+
             $new_post = Post::orderBy('id', 'DESC')->take(5)->get();
 
             $home_gallery = Gallery::inRandomOrder()->take('4')->get();
             $home_gallery2 = Gallery::inRandomOrder()->take('1')->get();
 
-            $event = Event::orderBy('id', 'DESC')->where('datetime','>=', Carbon::now())->take(1)->get();
-            $five_event = Event::orderBy('id', 'DESC')->where('datetime','>=', Carbon::now())->take(5)->get();
+            $event = Event::orderBy('id', 'DESC')->where('datetime', '>=', Carbon::now())->take(1)->get();
+            $five_event = Event::orderBy('id', 'DESC')->where('datetime', '>=', Carbon::now())->take(5)->get();
 
-                if(count($event)) {
-                    foreach ($event as $ev) {
+            if (count($event)) {
+                foreach ($event as $ev) {
 
-                        $seconds = strtotime($ev->datetime) - time();
+                    $seconds = strtotime($ev->datetime) - time();
 
-                        $days = floor($seconds / 86400);
-                        $seconds %= 86400;
+                    $days = floor($seconds / 86400);
+                    $seconds %= 86400;
 
-                        $hours = floor($seconds / 3600);
-                        $seconds %= 3600;
+                    $hours = floor($seconds / 3600);
+                    $seconds %= 3600;
 
-                        $minutes = floor($seconds / 60);
-                        $seconds %= 60;
-
-                    }
-
-                }else{
-                    $seconds = 0;
-
-                    $days = 0;
-
-
-                    $hours = 0;
-
-
-                    $minutes = 0;
+                    $minutes = floor($seconds / 60);
+                    $seconds %= 60;
 
                 }
 
+            } else {
+                $seconds = 0;
+
+                $days = 0;
+
+
+                $hours = 0;
+
+
+                $minutes = 0;
+
+            }
+
+            $category5 = '';
+
+            foreach($category as $c){
+
+                if(count($c)){
+
+                    $category5 = PostCategory::all()->random()->get();
+                }else{
+
+                    $category5 = '';
+                }
+            }
 
 
             $view->with('array',$array)

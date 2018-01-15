@@ -104,19 +104,6 @@
 
 
 
-                            <div class="form-group">
-                                {{ Form::label('slug_de', 'Slug DE', ['class' => 'col-lg-2 control-label','for'=>'slug_de']) }}
-                                <div class="col-lg-10">
-                                    {{ Form::text('slug_de', null, ['class' => 'form-control','id'=>'slug_de'])  }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                {{ Form::label('desc_sq', 'Desc SQ', ['class' => 'col-lg-2 control-label','for'=>'desc_sq']) }}
-                                <div class="col-lg-10">
-                                    {{ Form::textarea('desc_sq', null, ['class' => 'form-control','id'=>'desc_sq'])  }}
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 {{ Form::label('desc_de', 'Desc DE', ['class' => 'col-lg-2 control-label','for'=>'desc_de']) }}

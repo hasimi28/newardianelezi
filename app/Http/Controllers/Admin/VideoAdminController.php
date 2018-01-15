@@ -110,7 +110,8 @@ class VideoAdminController extends Controller
 
 
             $video->save();
-            return redirect('backend/videomanager');
+            return redirect('backend/videomanager')->with('success', 'Video u shtua me sukses');
+
 
         } else {
 
@@ -225,7 +226,7 @@ class VideoAdminController extends Controller
 
 
             $video->save();
-            return redirect('backend/videomanager');
+            return redirect('backend/videomanager')->with('success', 'Video u ndryshua me sukses');
 
         } else {
 

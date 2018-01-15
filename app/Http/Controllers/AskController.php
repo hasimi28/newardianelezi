@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Asker;
 use App\Questions;
+use Illuminate\Support\Facades\Mail;
 use Mews\Purifier\Facades\Purifier;
 
 class AskController extends Controller
@@ -47,6 +48,16 @@ class AskController extends Controller
                 $question->asker_id = $asker->id;
 
                 $question->save();
+
+
+                $data = ['name'=>$asker->name,'email'=>$request->email,'title' => $request->question_title,'content'=>Purifier::clean($request->question)];
+
+                Mail::send('emails.sendemail', $data, function ($message) {
+
+                    $message->to('kadrihasimi86@gmail.com','Kadri')->subject('Mesazh Nga Faqja');
+                });
+
+
 
                 return redirect()->back()->with('success','Pyetja juaj u dergua dhe pret te shqyrtohet');
             }

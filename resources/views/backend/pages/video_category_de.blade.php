@@ -24,13 +24,7 @@
                     <div class="form-group">
                         <a href="{{route('categorymanagerde.create')}}" class="btn  btn-primary icon-btn" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Shto Kategori</a>
                     </div>
-                    @if (\Session::has('success'))
-                        <div class="alert alert-success">
 
-                            <p>{!! \Session::get('success') !!}</p>
-
-                        </div>
-                    @endif
                     @if ($errors->any())
                         <div class="alert alert-danger">
 
@@ -102,6 +96,24 @@
 @endsection
 
 @section('js')
+
+    @if (\Session::has('success'))
+
+        <script>
+
+            $.notify({
+                title: "Sukses : ",
+                message: "Kategoria u shtua me sukses",
+                icon: 'fa fa-check'
+
+            },{
+                type: "info"
+            });
+        </script>
+
+    @endif
+
+
     <script>
         $("#checkall").click(function () {
             $('#sampleTable tbody input[type="checkbox"]').prop('checked', this.checked);

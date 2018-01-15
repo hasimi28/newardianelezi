@@ -60,13 +60,17 @@ Tags
                         <td> @foreach($post->tags as $tag)
                        <span class="label label-default"  style="margin-left:3px;"> {{ $tag->name_de }} </span> @endforeach</td>
 
-                                    <td style="text-align:center"><a href="{{route('tags.edit',$tags->id)}}" class="col-12 col-md-12 btn-primary btn-block "> <i class="fa fa-edit"></i> </a>
-                                        <form action="{{route('tags.destroy',$tags->id)}}" id="form_delete" accept-charset="UTF-8" method="POST">
+                                    <td style="text-align:center">
+
+                                        <a class="btn btn-info" href="{{route('tags.edit',$tags->id)}}">Edit <i class="fa fa-lg fa-edit"></i> </a>
+                                        <form action="{{route('tags.destroy',$tags->id)}}" id="form_delete" accept-charset="UTF-8" method="POST" style="float:left;">
                                             {{ csrf_field() }}
                                             <input type="hidden" name="_method" value="DELETE">
                                             <input type="hidden" name="id" value="{{$tags->id}}">
-                                            <p> <button type="submit"    class="col-12 col-md-12 btn-danger btn-block delete"><i class="fa fa-trash"></i></button></p>
+                                            <button type="submit" onclick="event.preventDefault();  ondelete({{$po->id}});" class="btn btn-warning" href="#">Delete <i class="fa fa-lg fa-trash"></i></button>
+
                                         </form>
+
 
                                        </td>
 

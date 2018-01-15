@@ -67,7 +67,8 @@
                                 <h3><a href="#">{{$post->TextTrans('title')}}</a></h3>
                                 <ul class="kode_meta meta_2">
                                     <li><a href="#"><i class="fa fa-clock-o"></i>{{$post->created_at->diffForHumans()}}</a></li>
-                                    <li><a href="{{url('postwithcat',$post->categories->id)}}"><i class="fa fa-book" aria-hidden="true"></i>{{$post->categories->name_sq}}</a></li>
+                                    @if($post->categories)  <li><a href="{{url('postwithcat',$post->categories->id)}}"><i class="fa fa-book" aria-hidden="true"></i>{{$post->categories->name_sq}}</a></li>  @endif
+
                                     <li><a href="#"><i class="fa fa-comment"></i>Leave Comment</a></li>
                                 </ul>
                             </div>
@@ -150,7 +151,7 @@
                                             <div class="kode_blog_caption">
                                                 <ul class="kode_meta meta_2">
                                                     <li><a href="#"><i class="fa fa-clock-o"></i>{{$p->created_at->diffForHumans()}}</a></li>
-                                                    <li><a href="{{url('/category',strtolower($p->categories->NameTrans('name')))}}"><i class="fa fa-book"></i>{{$p->categories->NameTrans('name')}}</a></li>
+                                                    @if($post->categories)    <li><a href="{{url('/category',strtolower($p->categories->NameTrans('name')))}}"><i class="fa fa-book"></i>{{$p->categories->NameTrans('name')}}</a></li> @endif
                                                 </ul>
                                                 <a class="share_link hvr-ripple-out" href="#"><i class="fa fa-share-alt"></i></a>
                                             </div>
@@ -184,73 +185,73 @@
                         <div class="siderbar_categories margin sidebar_bg">
                             <h4 class="sidebar_title">Categories</h4>
                             <ul class="categories_detail">
-                                @foreach($category5 as $cat) <li><a href="{{url('/category',strtolower($cat->NameTrans('name')))}}">{{$cat->NameTrans('name')}}</a></li>@endforeach
-                            </ul>
-                        </div>
+        @if($category5)    @foreach($category5 as $cat) <li><a href="{{url('/category',strtolower($cat->NameTrans('name')))}}">{{$cat->NameTrans('name')}}</a></li>@endforeach @endif
+    </ul>
+</div>
 
-                        <!--SIDEBAR CATEGORIES MARGIN END-->
+<!--SIDEBAR CATEGORIES MARGIN END-->
 
-                        <!--SIDEBAR CATEGORIES RECENT NEWS MARGIN START-->
+<!--SIDEBAR CATEGORIES RECENT NEWS MARGIN START-->
 
-                            <div class="siderbar_categories recent_news margin sidebar_bg">
-                                <h4 class="sidebar_title">New Post</h4>
+    <div class="siderbar_categories recent_news margin sidebar_bg">
+        <h4 class="sidebar_title">New Post</h4>
 
-                                <ul class="kode_calender_detail">
-                                    @foreach($new_post as $pos)
-                                        <li>
+        <ul class="kode_calender_detail">
+            @foreach($new_post as $pos)
+                <li>
 
-                                            <div class=" kode_calender_list new_post">
-                                                <figure class=" them_overlay">
-                                                    <a href="#"><img src="{{asset('postimages/'.$pos->image)}}" alt=""></a>
-                                                </figure></div>
+                    <div class=" kode_calender_list new_post">
+                        <figure class=" them_overlay">
+                            <a href="#"><img src="{{asset('postimages/'.$pos->image)}}" alt=""></a>
+                        </figure></div>
 
-                                            <div class="kode_event_text">
-                                                <h6><a href="{{route('blog.post',$pos->TextTrans('slug'))}}">{{$pos->TextTrans('title')}}</a></h6>
-                                                <ul class="kode_meta">
-                                                    <li><a href="#"><i class="fa fa-clock-o"></i>{{$pos->created_at->diffForHumans()}}</a></li>
-                                                </ul>
-                                            </div>
-
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        <!--SIDEBAR CATEGORIES RECENT NEWS MARGIN END-->
-
-                        <!--SIDEBAR ADD MARGIN START-->
-                        <div class="sidebar_add margin">
-                            <figure class="them_overlay">
-                                <a href="#"><img src="extra-images/recent-news2.jpg"></a>
-                                <figcaption>
-                                    <h3>Muslim Refuges</h3>
-                                    <h2>360 x 315</h2>
-                                    <h4>Place Your </h4>
-                                    <h5>Ad Here</h5>
-                                    <a class="medium_btn theme_color_bg btn_hover2 hvr-ripple-out" href="#">Donate Now</a>
-                                </figcaption>
-                            </figure>
-                        </div>
-                        <!--SIDEBAR ADD MARGIN END-->
-
-                        <!--SIDEBAR CATEGORIES ARCHIVE START-->
-                        <div class="siderbar_categories archive sidebar_bg">
-                            <h4 class="sidebar_title">Blog Archieve</h4>
-                            <ul class="categories_detail">
-                                <li><a href="#">March 2017</a></li>
-                                <li><a href="#">April 2017</a></li>
-                                <li><a href="#">May 2017</a></li>
-                                <li><a href="#">June 2017</a></li>
-                                <li><a href="#">July 2017</a></li>
-                                <li><a href="#">August 2017</a></li>
-                            </ul>
-                        </div>
-                        <!--SIDEBAR CATEGORIES ARCHIVE END-->
+                    <div class="kode_event_text">
+                        <h6><a href="{{route('blog.post',$pos->TextTrans('slug'))}}">{{$pos->TextTrans('title')}}</a></h6>
+                        <ul class="kode_meta">
+                            <li><a href="#"><i class="fa fa-clock-o"></i>{{$pos->created_at->diffForHumans()}}</a></li>
+                        </ul>
                     </div>
-                    <!--SIDEBAR WIDGET END-->
-                </div>
-            </div>
-        </div>
-        <!--CONTAINER END-->
+
+                </li>
+            @endforeach
+        </ul>
     </div>
+<!--SIDEBAR CATEGORIES RECENT NEWS MARGIN END-->
+
+<!--SIDEBAR ADD MARGIN START-->
+<div class="sidebar_add margin">
+    <figure class="them_overlay">
+        <a href="#"><img src="extra-images/recent-news2.jpg"></a>
+        <figcaption>
+            <h3>Muslim Refuges</h3>
+            <h2>360 x 315</h2>
+            <h4>Place Your </h4>
+            <h5>Ad Here</h5>
+            <a class="medium_btn theme_color_bg btn_hover2 hvr-ripple-out" href="#">Donate Now</a>
+        </figcaption>
+    </figure>
+</div>
+<!--SIDEBAR ADD MARGIN END-->
+
+<!--SIDEBAR CATEGORIES ARCHIVE START-->
+<div class="siderbar_categories archive sidebar_bg">
+    <h4 class="sidebar_title">Blog Archieve</h4>
+    <ul class="categories_detail">
+        <li><a href="#">March 2017</a></li>
+        <li><a href="#">April 2017</a></li>
+        <li><a href="#">May 2017</a></li>
+        <li><a href="#">June 2017</a></li>
+        <li><a href="#">July 2017</a></li>
+        <li><a href="#">August 2017</a></li>
+    </ul>
+</div>
+<!--SIDEBAR CATEGORIES ARCHIVE END-->
+</div>
+<!--SIDEBAR WIDGET END-->
+</div>
+</div>
+</div>
+<!--CONTAINER END-->
+</div>
 
 @endsection

@@ -18,9 +18,13 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <a href="{{route('tags.create')}}" class="btn  btn-primary icon-btn" type="submit" style="float:right;"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add New</a>
+        <p style="float:left;margin-right:10px;"> Select All <input type="checkbox" id="checkall"  /> </p>   <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
+
+    </div>
 
 
-    <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
 
     <div class="row">
         <div class="col-md-12">
@@ -46,7 +50,7 @@
                                 <thead>
                                 <tr>
 
-                                    <th><input type="checkbox" id="checkall"  class="hidden-sm hidden-xs"/> All </th>
+                                    <th>ID </th>
 
 
                                     <th>Name SQ</th>
@@ -61,7 +65,7 @@
                                 @foreach($tags as $tag)
 
                                    <tr class="tr_with_{{$tag->id}}">
-                                    <td><input type="checkbox" class="checkthis hidden-sm hidden-xs" value="{{$tag->id}}" /> ID - {{$tag->id}} </td>
+                                    <td><input type="checkbox" class="checkthis hidden-sm hidden-xs" value="{{$tag->id}}" />{{$tag->id}} </td>
 
                                         <td> {{ $tag->name_sq }} </td>
                                         <td> {{ $tag->name_de }} </td>
@@ -92,13 +96,7 @@
                     </div>
                     <div class="col-lg-3">
 
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
 
-                                <p>{!! \Session::get('success') !!}</p>
-
-                            </div>
-                        @endif
                         <form class="bs-component" action="{{route('tags.store')}}" method="POST">
                             {{csrf_field()}}
                             <div class="form-group">
@@ -128,6 +126,24 @@
 @endsection
 
 @section('js')
+
+
+    @if (\Session::has('success'))
+
+        <script>
+
+            $.notify({
+                title: "Sukses : ",
+                message: "Tagi u shtua me sukses",
+                icon: 'fa fa-check'
+
+            },{
+                type: "info"
+            });
+        </script>
+
+    @endif
+
     <script>
         $("#checkall").click(function () {
             $('#sampleTable tbody input[type="checkbox"]').prop('checked', this.checked);
@@ -181,7 +197,7 @@
 
                                         $.notify({
                                             title: "Sukses : ",
-                                            message: " Postimet u fshi me sukses",
+                                            message: "Taget u fshin me sukses",
                                             icon: 'fa fa-check'
 
                                         },{
@@ -198,7 +214,7 @@
 
                                         }, 1000);
 
-                                        swal("Success!", "Postimet u fshin me sukses.", "success");
+                                        swal("Success!", "Taget u fshin me sukses.", "success");
                                     }
 
                                 },
@@ -258,7 +274,7 @@
 
                                 $.notify({
                                     title: "Sukses : ",
-                                    message: " Postimi u fshi me sukses",
+                                    message: "Tagi u fshi me sukses",
                                     icon: 'fa fa-check'
 
                                 },{
@@ -275,7 +291,7 @@
 
                                 }, 1000);
 
-                                swal("Success!", "Postimet u fshin me sukses.", "success");
+                                swal("Success!", "Tagi u fshi me sukses.", "success");
                             }
 
                         },

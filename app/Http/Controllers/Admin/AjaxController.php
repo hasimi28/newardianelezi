@@ -301,4 +301,30 @@ class AjaxController extends Controller
             ], 404);
         }
     }
+
+
+
+
+    public function del_cat_post(){
+
+        $all = input::get('val');
+
+        if (Auth::user()->can('delete-post')) {
+
+            PostCategory::find($all)->delete();
+
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
+
+
+        } else{
+
+            return response()->json([
+                'success' => false,
+                'status' => 'success'
+            ], 404);
+        }
+    }
 }

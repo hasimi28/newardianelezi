@@ -6,6 +6,7 @@ use App\PostCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
 class CategoryPost extends Controller
@@ -26,6 +27,7 @@ class CategoryPost extends Controller
     {
         if (Auth::user()->can('read-post')) {
             $postcategory = PostCategory::orderBy('id', 'desc')->get();
+
 
             return view('backend.pages.postcategory')->withPostcategory($postcategory);
 
@@ -166,19 +168,25 @@ return redirect()->back()->with('success','Nuk keni qasje');
      */
     public function destroy($id)
     {
-
+        $val = input::get('val');
         if (Auth::user()->can('delete-post')) {
 
 
-        PostCategory::findOrFail($id)->delete();
+        PostCategory::findOrFail($val)->delete();
 
         Session::flash('success','Kategoria u fshi me sukses');
 
-        return redirect()->back();
+            return response()->json([
+                'success' => true,
+                'status' => 'success'
+            ], 200);
 
         } else{
 
-            return redirect()->back()->with('success','Nuk keni qasje');
+            return response()->json([
+                'success' => false,
+                'status' => 'Nuk keni qasje'
+            ], 200);
         }
 
     }

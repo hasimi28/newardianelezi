@@ -6,8 +6,8 @@
 
             <div>
                 <h1><i class="fa fa-th-list"></i> Perdoruesit </h1>
-                <p>SuperAdmins/Admins/Authors/Editors/Contributors/Subscribers</p>
-                <a href="{{route('users.create')}}" class="btn btn-primary">Add New Users</a>
+
+
             </div>
             <div>
                 <ul class="breadcrumb side">
@@ -17,24 +17,23 @@
                 </ul>
             </div>
         </div>
-        <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
+                        <div class="form-group">
+                            <a href="{{route('users.create')}}" class="btn  btn-primary icon-btn" type="submit" style="float:right;"><i class="fa fa-fw fa-lg fa-check-circle"></i>Add New</a>
+                            <p style="float:left;margin-right:10px;"> Select All <input type="checkbox" id="checkall"  /> </p>   <button type="button" class="btn btn-danger btn-sm deleteAll" id="deleteAll" onclick="deleteall();" style="float:left;">Delete All Selected </button>
 
-                                    <p>{!! \Session::get('success') !!}</p>
-
-                            </div>
-                        @endif
+                        </div>
+                        <br>   <br>
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                             <tr>
 
 
-                                <th class="hidden-sm hidden-xs"><input type="checkbox" id="checkall" /> All </th>
+                                <th class="hidden-sm hidden-xs"> ID </th>
                                 <th class="hidden-sm hidden-xs">Name</th>
                                 <th>Email</th>
                                 <th class="hidden-sm hidden-xs">Created</th>
@@ -48,7 +47,7 @@
 
 
                                     <tr class="tr_with_{{$user->id}}">
-                                        <td><input type="checkbox" class="checkthis hidden-sm hidden-xs" value="{{$user->id}}" /> ID - {{$user->id}} </td>
+                                        <td><input type="checkbox" class="checkthis hidden-sm hidden-xs" value="{{$user->id}}" />  {{$user->id}} </td>
                                     <td class="hidden-sm hidden-xs"> {{ $user->name }} </td>
                                     <td> {{ $user->email }} </td>
                                     <td class="hidden-sm hidden-xs"> {{ $user->created_at }} </td>
@@ -82,7 +81,24 @@
     @endsection
 
 @section('js')
-    @include('backend.pages.js_files.delete_users_js')
+
+    @if (\Session::has('success'))
+
+        <script>
+
+            $.notify({
+                title: "Sukses : ",
+                message: "Perdoruesi u shtua me sukses",
+                icon: 'fa fa-check'
+
+            },{
+                type: "info"
+            });
+        </script>
+@endif
+
+
+        @include('backend.pages.js_files.delete_users_js')
     @include('include.datatable')
 
 @endsection
